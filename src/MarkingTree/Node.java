@@ -38,6 +38,7 @@ public class Node {
 	// Definitely mark
 	public void mark() {
 		marked = true;
+		Tree.k.markNode(index);
 		if (parent != null)
 			parent.potentiallyMark();
 		if (left != null){
