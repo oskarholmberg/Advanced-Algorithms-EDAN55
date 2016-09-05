@@ -12,18 +12,16 @@ public class Node {
 	
 	public KnuthArray k;
 	
-	public Node(int remainingDepth, Node parent, AtomicInteger at, HashMap<Integer, Node> nodes, KnuthArray k){
+	public Node(int remainingDepth, Node parent, AtomicInteger at, HashMap<Integer, Node> nodes){
 		this.parent = parent;
 		index = at.incrementAndGet();
-		
-		this.k = k;
-		
+				
 		nodes.put(index, this);
 		
 		System.out.println("created node at level: " + remainingDepth + " with index: " + index);
 		if (remainingDepth > 0){
-			left = new Node(remainingDepth-1, this, at, nodes, k);
-			right = new Node(remainingDepth-1, this, at, nodes, k);
+			left = new Node(remainingDepth-1, this, at, nodes);
+			right = new Node(remainingDepth-1, this, at, nodes);
 		}
 
 	}
@@ -42,12 +40,15 @@ public class Node {
 		marked = true;
 		if (parent != null)
 			parent.potentiallyMark();
-		if (left.marked){
-			right.marked = true;
+		if (left != null){
+			if (left.marked){
+				right.marked = true;
+			}
+			else if (right.marked){
+				left.marked = true;
+			}
 		}
-		else if (right.marked){
-			left.marked = true;
-		}
+
 	}
 
 	// Test for marking
