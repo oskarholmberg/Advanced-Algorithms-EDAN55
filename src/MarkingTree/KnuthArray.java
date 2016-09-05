@@ -31,6 +31,14 @@ public class KnuthArray {
 		map.put(list[i], i);
 		last--;
 	}
+	
+	public boolean isEmpty() {
+		if (last == 0) {
+			return true;
+		} else {
+			return false;
+		}	
+	}
 
 	private void fillArray(int i) {
 		for (int k = 1; k <= i; k++) {
