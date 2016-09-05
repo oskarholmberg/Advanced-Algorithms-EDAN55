@@ -13,7 +13,7 @@ public class Tree {
 
 		HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 
-		Node n = new Node(depth, null, at, nodes);
+		Node n = new Node(depth-1, null, at, nodes);
 
 		k = new KnuthArray(at.get());
 
