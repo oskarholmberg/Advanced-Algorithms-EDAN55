@@ -17,13 +17,15 @@ public class Tree {
 
 		k = new KnuthArray(at.get());
 
+		int count = 0;
 		while (!k.isEmpty()) {
+			count++;
 			int recieved = k.popRandom();
 			System.out.println(recieved);
 			nodes.get(recieved).mark();
 			TreePrinter.printNode(n);
 		}
-		//TreePrinter.printNode(n);
+		System.out.println("Covering the tree took: " + count);
 
 	}
 }
