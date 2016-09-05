@@ -11,14 +11,12 @@ public class Node {
 	public int index;
 	
 	public KnuthArray k;
-	public HashMap<Integer, Node> nodes;
 	
 	public Node(int remainingDepth, Node parent, AtomicInteger at, HashMap<Integer, Node> nodes, KnuthArray k){
 		this.parent = parent;
 		index = at.incrementAndGet();
 		
 		this.k = k;
-		this.nodes = nodes;
 		
 		nodes.put(index, this);
 		
