@@ -1,4 +1,4 @@
-package marking;
+package MarkingTree;
 
 public class Node {
 	public Node parent;

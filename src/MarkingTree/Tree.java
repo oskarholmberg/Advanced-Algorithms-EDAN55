@@ -1,4 +1,4 @@
-package marking;
+package MarkingTree;
 
 public class Tree {
 public static int depth = 10;
