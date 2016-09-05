@@ -20,7 +20,6 @@ public class Node {
 
 		nodes.put(index, this);
 
-		System.out.println("created node at level: " + remainingDepth + " with index: " + index);
 		if (remainingDepth > 0) {
 			left = new Node(remainingDepth - 1, this, at, nodes);
 			right = new Node(remainingDepth - 1, this, at, nodes);
