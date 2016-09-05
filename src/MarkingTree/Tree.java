@@ -8,7 +8,7 @@ public class Tree {
 	public static KnuthArray k;
 
 	public static void main(String[] args) {
-		AtomicInteger at = new AtomicInteger(1);
+		AtomicInteger at = new AtomicInteger(0);
 
 		HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 
