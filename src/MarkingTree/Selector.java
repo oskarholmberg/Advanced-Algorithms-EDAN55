@@ -1,15 +1,18 @@
 package MarkingTree;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Selector {
 
 	private int[] list;
 	private int last;
+	private ArrayList restList;
 	private HashMap<Integer, Integer> map;
 
 	public Selector(int i) {
 		list = new int[i];
+		restList = new ArrayList<Integer>();
 		map = new HashMap<Integer, Integer>();
 		last = i - 1;
 		fillArray(i);
@@ -24,7 +27,7 @@ public class Selector {
 	}
 
 	public int restPop(){
-		return 0;
+		return (int) restList.remove((int) Math.floor(Math.random() * restList.size()));
 	}
 
 	public void markNode(int i) {
@@ -49,6 +52,8 @@ public class Selector {
 		for (int k = 1; k <= i; k++) {
 			list[k - 1] = k;
 			map.put(k, k - 1);
+			restList.add(k);
 		}
+		
 	}
 }
