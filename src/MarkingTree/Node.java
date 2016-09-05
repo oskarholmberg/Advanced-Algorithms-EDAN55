@@ -9,44 +9,42 @@ public class Node {
 	public Node right;
 	public boolean marked;
 	public int index;
-	
+
 	public KnuthArray k;
-	
-	public Node(int remainingDepth, Node parent, AtomicInteger at, HashMap<Integer, Node> nodes){
+
+	public Node(int remainingDepth, Node parent, AtomicInteger at, HashMap<Integer, Node> nodes) {
 		this.parent = parent;
 		index = at.incrementAndGet();
 		marked = false;
-				
+
 		nodes.put(index, this);
-		
+
 		System.out.println("created node at level: " + remainingDepth + " with index: " + index);
-		if (remainingDepth > 0){
-			left = new Node(remainingDepth-1, this, at, nodes);
-			right = new Node(remainingDepth-1, this, at, nodes);
+		if (remainingDepth > 0) {
+			left = new Node(remainingDepth - 1, this, at, nodes);
+			right = new Node(remainingDepth - 1, this, at, nodes);
 		}
 
 	}
 
-	public String toString(){
-        if (marked) {
-            return "X";
-        }
-        else{
-            return "O";
-        }
-    }
-	
+	public String toString() {
+		if (marked) {
+			return "X";
+		} else {
+			return "O";
+		}
+	}
+
 	// Definitely mark
 	public void mark() {
 		marked = true;
 		Tree.k.markNode(index);
 		if (parent != null)
 			parent.potentiallyMark();
-		if (left != null){
-			if (left.marked && !right.marked){
+		if (left != null) {
+			if (left.marked && !right.marked) {
 				right.mark();
-			}
-			else if (right.marked && !left.marked){
+			} else if (right.marked && !left.marked) {
 				left.mark();
 			}
 		}
@@ -57,6 +55,13 @@ public class Node {
 	public void potentiallyMark() {
 		if (left.marked && right.marked && !marked) {
 			mark();
+		} else if (left.marked && marked && !right.marked) {
+			right.mark();
+
+		} else if (right.marked && marked && !left.marked) {
+			left.mark();
 		}
+
 	}
+
 }
