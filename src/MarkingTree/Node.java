@@ -9,6 +9,7 @@ public class Node {
 	public Node right;
 	public boolean marked;
 	public int index;
+    public boolean selected;
 
 	public KnuthArray k;
 
@@ -28,12 +29,20 @@ public class Node {
 	}
 
 	public String toString() {
+        if (selected) {
+            return "M";
+        }
 		if (marked) {
 			return "X";
 		} else {
 			return "O";
 		}
 	}
+
+    public void mark(boolean selected){
+        this.selected = selected;
+        mark();
+    }
 
 	// Definitely mark
 	public void mark() {

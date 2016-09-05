@@ -20,7 +20,7 @@ public class Tree {
 		while (!k.isEmpty()) {
 			int recieved = k.popRandom();
 			System.out.println(recieved);
-			nodes.get(recieved).mark();
+			nodes.get(recieved).mark(true);
 			TreePrinter.printNode(n);
 		}
 		//TreePrinter.printNode(n);
