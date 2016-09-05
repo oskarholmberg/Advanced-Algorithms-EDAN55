@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Tree {
-	public static int depth = 2;
+	public static int depth = 3;
 	public static KnuthArray k;
 
 	public static void main(String[] args) {
@@ -15,10 +15,12 @@ public class Tree {
 
 		Node n = new Node(depth, null, at, nodes);
 
-		k = new KnuthArray(at.incrementAndGet());
+		k = new KnuthArray(at.get());
 
 		while (!k.isEmpty()) {
-			nodes.get(k.popRandom()).mark();
+			int recieved = k.popRandom();
+			System.out.println(recieved);
+			nodes.get(recieved).mark();
 			TreePrinter.printNode(n);
 		}
 		TreePrinter.printNode(n);
