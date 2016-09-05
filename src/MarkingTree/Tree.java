@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Tree {
-	public static int depth = 10;
+	public static int depth = 3;
 
 	public static void main(String[] args) {
 		AtomicInteger at = new AtomicInteger(0);
-		KnuthArray k = new KnuthArray();
+		KnuthArray k = new KnuthArray(at.get());
 
 		HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 
@@ -16,6 +16,7 @@ public class Tree {
 
 		while (!k.isEmpty()) {
 			nodes.get(k.popRandom()).mark();
+			TreePrinter.printNode(n);
 		}
 	}
 }
