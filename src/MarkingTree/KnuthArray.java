@@ -16,10 +16,7 @@ public class KnuthArray {
 	}
 
 	public int popRandom() {
-		int index = (int) Math.floor(Math.random() * last);
-		int chosen = list[index];
-		shiftList(index);
-		return chosen;
+		return  list[(int) Math.floor(Math.random() * last)];
 	}
 
 	public void markNode(int i) {
@@ -30,11 +27,10 @@ public class KnuthArray {
 		list[i] = list[last];
 		map.put(list[i], i);
 		last--;
-		System.out.println(last);
 	}
 	
 	public boolean isEmpty() {
-		if (last == 0) {
+		if (last == -1) {
 			return true;
 		} else {
 			return false;
