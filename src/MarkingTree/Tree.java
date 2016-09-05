@@ -21,7 +21,6 @@ public class Tree {
 		while (!k.isEmpty()) {
 			count++;
 			int recieved = k.popRandom();
-			System.out.println(recieved);
 			nodes.get(recieved).mark(true);
 			TreePrinter.printNode(n);
 		}
