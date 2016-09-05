@@ -15,6 +15,7 @@ public class Node {
 	public Node(int remainingDepth, Node parent, AtomicInteger at, HashMap<Integer, Node> nodes){
 		this.parent = parent;
 		index = at.incrementAndGet();
+		marked = false;
 				
 		nodes.put(index, this);
 		
@@ -43,11 +44,9 @@ public class Node {
 			parent.potentiallyMark();
 		if (left != null){
 			if (left.marked && !right.marked){
-//				right.marked = true;
 				right.mark();
 			}
 			else if (right.marked && !left.marked){
-//				left.marked = true;
 				left.mark();
 			}
 		}
