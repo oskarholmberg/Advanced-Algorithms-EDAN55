@@ -23,7 +23,7 @@ public class Tree {
 			nodes.get(recieved).mark();
 			TreePrinter.printNode(n);
 		}
-		TreePrinter.printNode(n);
+		//TreePrinter.printNode(n);
 
 	}
 }
