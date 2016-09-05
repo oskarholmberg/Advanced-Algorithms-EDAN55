@@ -4,8 +4,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Node {
 	public Node parent;
-	public Node child1;
-	public Node child2;
+	public Node left;
+	public Node right;
 	public boolean marked;
 	public int index;
 	
@@ -15,9 +15,18 @@ public class Node {
 		
 		System.out.println("created node at level: " + remainingDepth + " with index: " + index);
 		if (remainingDepth > 0){
-			child1 = new Node(remainingDepth-1, this, at);
-			child2 = new Node(remainingDepth-1, this, at);
+			left = new Node(remainingDepth-1, this, at);
+			right = new Node(remainingDepth-1, this, at);
 		}
 
 	}
+
+	public String toString(){
+        if (marked) {
+            return "X";
+        }
+        else{
+            return "O";
+        }
+    }
 }
