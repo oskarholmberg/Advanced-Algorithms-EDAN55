@@ -39,6 +39,7 @@ public class Node {
 	
 	// Definitely mark
 	public void mark() {
+		marked = true;
 		if (parent != null)
 			parent.potentiallyMark();
 		if (left.marked){
