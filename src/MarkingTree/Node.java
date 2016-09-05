@@ -11,7 +11,7 @@ public class Node {
 	public int index;
     public boolean selected;
 
-	public KnuthArray k;
+	public Selector k;
 
 	public Node(int remainingDepth, Node parent, AtomicInteger at, HashMap<Integer, Node> nodes) {
 		this.parent = parent;

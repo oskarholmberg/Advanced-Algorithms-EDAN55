@@ -2,21 +2,29 @@ package MarkingTree;
 
 import java.util.HashMap;
 
-public class KnuthArray {
+public class Selector {
 
 	private int[] list;
 	private int last;
 	private HashMap<Integer, Integer> map;
 
-	public KnuthArray(int i) {
+	public Selector(int i) {
 		list = new int[i];
 		map = new HashMap<Integer, Integer>();
 		last = i - 1;
 		fillArray(i);
 	}
 
-	public int popRandom() {
+	public int knuthPop() {
 		return  list[(int) Math.floor(Math.random() * last)];
+	}
+
+	public int sizePop(){
+		return (int) Math.ceil((Math.random() * list.length));
+	}
+
+	public int restPop(){
+		return 0;
 	}
 
 	public void markNode(int i) {
