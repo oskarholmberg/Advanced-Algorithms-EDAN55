@@ -52,8 +52,7 @@ public class Node {
 	// Test for marking
 	public void potentiallyMark() {
 		if (left.marked && right.marked) {
-			marked = true;
-			parent.potentiallyMark();
+			mark();
 		}
 	}
 }
