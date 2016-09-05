@@ -16,7 +16,7 @@ public class KnuthArray {
 	}
 
 	public int popRandom() {
-		int index = (int) Math.ceil(Math.random() * last);
+		int index = (int) Math.floor(Math.random() * last);
 		int chosen = list[index];
 		shiftList(index);
 		return chosen;
@@ -30,6 +30,7 @@ public class KnuthArray {
 		list[i] = list[last];
 		map.put(list[i], i);
 		last--;
+		System.out.println(last);
 	}
 	
 	public boolean isEmpty() {
