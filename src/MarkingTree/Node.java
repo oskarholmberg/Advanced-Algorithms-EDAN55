@@ -42,11 +42,11 @@ public class Node {
 			parent.potentiallyMark();
 		if (left != null){
 			if (left.marked && !right.marked){
-				right.marked = true;
+//				right.marked = true;
 				right.mark();
 			}
 			else if (right.marked && !left.marked){
-				left.marked = true;
+//				left.marked = true;
 				left.mark();
 			}
 		}
