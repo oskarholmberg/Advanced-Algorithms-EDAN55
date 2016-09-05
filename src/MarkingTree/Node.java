@@ -29,4 +29,23 @@ public class Node {
             return "O";
         }
     }
+	
+	public void mark() {
+		if (parent != null)
+			parent.potentiallyMark();
+		if (left.marked){
+			right.marked = true;
+		}
+		else if (right.marked){
+			left.marked = true;
+		}
+	}
+
+	// Test for marking
+	public void potentiallyMark() {
+		if (left.marked && right.marked) {
+			marked = true;
+			parent.potentiallyMark();
+		}
+	}
 }
