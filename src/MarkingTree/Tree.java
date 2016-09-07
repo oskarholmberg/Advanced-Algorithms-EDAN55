@@ -25,7 +25,7 @@ public class Tree {
 			
 			while (!k.isEmpty()) {
 				count++;
-				int recieved = k.restPop();
+				int recieved = k.sizePop();
 	            if(!nodes.get(recieved).marked) nodes.get(recieved).mark(true);
 	            if (print)
 	            	TreePrinter.printNode(n);
