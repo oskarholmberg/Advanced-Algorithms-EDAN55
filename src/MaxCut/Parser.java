@@ -44,7 +44,7 @@ public class Parser {
                     nodes.put(Integer.valueOf(data[1]), n2);
                 }
 
-                edges.add(new Edge());
+                edges.add(new Edge(n1, n2, Integer.valueOf(data[2])));
             }
 
         } catch (FileNotFoundException e) {
@@ -54,7 +54,7 @@ public class Parser {
         }
     }
 
-    public ArrayList<Node> getNodes() {
+    public HashMap<Integer, Node> getNodes() {
         return nodes;
     }
 
