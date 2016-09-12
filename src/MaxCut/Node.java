@@ -7,6 +7,6 @@ public class Node {
 	public int location;
 	
 	public Node(){
-		
+			
 	}
 }
