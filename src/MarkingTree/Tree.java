@@ -9,10 +9,10 @@ public class Tree {
 
 	};
 
-	public static final int depth = 2;
-	public static final int runTimes = 10;
-	public static final boolean print = false;
-	public static final Mode mode = Mode.KNUTH;
+	public static final int depth = 7;
+	public static final int runTimes = 1;
+	public static final boolean print = true;
+	public static final Mode mode = Mode.SIZE;
 	public static Selector k;
 
 	public static void main(String[] args) {
