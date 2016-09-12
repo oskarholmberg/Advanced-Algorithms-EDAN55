@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Tree {
 	public enum Mode {
 		SIZE, REST, KNUTH
-
 	};
 
 	public static final int depth = 7;
