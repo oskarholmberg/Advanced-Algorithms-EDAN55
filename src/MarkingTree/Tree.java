@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Tree {
-	public static final int depth = 5;
-	public static final int runTimes = 100;
+	public static final int depth = 4;
+	public static final int runTimes = 1000000;
 	public static final boolean print = false;
 	public static Selector k;
 
@@ -29,12 +29,12 @@ public class Tree {
 	            if(!nodes.get(recieved).marked) nodes.get(recieved).mark(true);
 	            if (print)
 	            	TreePrinter.printNode(n);
-			}
-			data[i] = count;
+            }
+            data[i] = count;
 		}
 		Statistics s = new Statistics(data);
 		
-		System.out.println("Mean: " + s.getMean() + " Variance: " + s.getVariance());
+		System.out.println("Mean: " + s.getMean() + " Standard deviation: " + s.getStdDev());
 		
 //		System.out.println("Covering the tree took: " + count);
 
