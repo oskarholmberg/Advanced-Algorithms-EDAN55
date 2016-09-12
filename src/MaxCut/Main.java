@@ -8,9 +8,11 @@ public class Main {
 	public static void main(String[] args) {
 		double bestResult = Double.MIN_VALUE;
 
+		long time = System.currentTimeMillis();
+
 		Parser parser = new Parser();
-		parser.parse("src/MaxCut/matching_1000.txt");
-//		parser.parse("src/MaxCut/pw09_100.9.txt");
+//		parser.parse("src/MaxCut/matching_1000.txt");
+		parser.parse("src/MaxCut/pw09_100.9.txt");
 
 		Collection<Node> nodes = parser.getNodes().values();
 		Collection<Edge> edges = parser.getEdges();
@@ -19,7 +21,7 @@ public class Main {
 			randomizeNodes(nodes);
 			bestResult = Math.max(bestResult, getValueOfCut(edges));
 		}
-		System.out.println(bestResult);
+		System.out.println(bestResult + " runtime: " + (System.currentTimeMillis()-time));
 
 	}
 
@@ -35,7 +37,7 @@ public class Main {
 	public static void randomizeNodes(Collection<Node> nodes) {
 		Random r = new Random();
 		for (Node n : nodes) {
-			n.location = r.nextInt(1);
+			n.location = r.nextInt(2);
 		}
 	}
 }
