@@ -7,14 +7,19 @@ public class Main {
 
 	public static void main(String[] args) {
 		double bestResult = Double.MIN_VALUE;
-		
-		Collection<Node> nodes = null;
-		Collection<Edge> edges = null;
+
+		Parser parser = new Parser();
+		parser.parse("src/MaxCut/matching_1000.txt");
+//		parser.parse("src/MaxCut/pw09_100.9.txt");
+
+		Collection<Node> nodes = parser.getNodes().values();
+		Collection<Edge> edges = parser.getEdges();
 		
 		for (int i = 0; i < runTimes; i++) {
 			randomizeNodes(nodes);
 			bestResult = Math.max(bestResult, getValueOfCut(edges));
 		}
+		System.out.println(bestResult);
 
 	}
 

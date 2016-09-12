@@ -24,27 +24,30 @@ public class Parser {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
             String line = br.readLine();
-            String[] data = line.split(" ");
+            line = br.readLine();
+            String[] data;
             while (line != null) {
-                line = br.readLine();
                 data = line.split(" ");
                 Node n1;
                 Node n2;
-                if (nodes.containsKey(Integer.valueOf(data[0])))
+                if (nodes.containsKey(Integer.valueOf(data[0]))) {
                     n1 = nodes.get(Integer.valueOf(data[0]));
+                }
                 else {
                     n1 = new Node(Integer.valueOf(data[0]));
                     nodes.put(Integer.valueOf(data[0]), n1);
                 }
 
-                if (nodes.containsKey(Integer.valueOf(data[1])))
+                if (nodes.containsKey(Integer.valueOf(data[1]))) {
                     n2 = nodes.get(Integer.valueOf(data[1]));
+                }
                 else {
                     n2 = new Node(Integer.valueOf(data[1]));
                     nodes.put(Integer.valueOf(data[1]), n2);
                 }
 
                 edges.add(new Edge(n1, n2, Integer.valueOf(data[2])));
+                line = br.readLine();
             }
 
         } catch (FileNotFoundException e) {
