@@ -6,6 +6,7 @@ package MaxCut;
 public class Node {
 
     private int id;
+    public int location;
 
     public Node(int id) {
         this.id = id;

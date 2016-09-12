@@ -5,7 +5,7 @@ import java.util.Random;
 public class Main {
 	public static final int runTimes = 1000;
 
-	public static void main() {
+	public static void main(String[] args) {
 		double bestResult = Double.MIN_VALUE;
 		
 		Collection<Node> nodes = null;
