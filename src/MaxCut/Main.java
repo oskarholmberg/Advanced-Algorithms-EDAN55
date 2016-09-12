@@ -4,9 +4,11 @@ import java.util.Random;
 
 public class Main {
 	public static final int runTimes = 1000;
+	public static Random r;
 
 	public static void main(String[] args) {
 		double bestResult = Double.MIN_VALUE;
+		r = new Random();
 
 		long time = System.currentTimeMillis();
 
@@ -35,7 +37,6 @@ public class Main {
 	}
 
 	public static void randomizeNodes(Collection<Node> nodes) {
-		Random r = new Random();
 		for (Node n : nodes) {
 			n.location = r.nextInt(2);
 		}
