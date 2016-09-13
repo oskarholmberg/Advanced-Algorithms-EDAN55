@@ -14,7 +14,7 @@ public class Statistics
         size = data.length;
     }   
 
-    double getMean()
+    public double getMean()
     {
         double sum = 0.0;
         for(double a : data)

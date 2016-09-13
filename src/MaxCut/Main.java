@@ -3,6 +3,8 @@ package MaxCut;
 import java.util.Collection;
 import java.util.Random;
 
+import MarkingTree.Statistics;
+
 public class Main {
 	public static final int runTimes = 100;
 	public static Random r;
@@ -18,16 +20,20 @@ public class Main {
 		long time = System.currentTimeMillis();
 		Collection<Node> nodes = parser.getNodes().values();
 		Collection<Edge> edges = parser.getEdges();
+		double[] data = new double[runTimes];
 
 		for (int i = 0; i < runTimes; i++) {
 			randomizeNodes(nodes);
 			int currentResult = getValueOfCut(edges);
 			System.out.println(currentResult);
 			bestResult = Math.max(bestResult, currentResult);
+			data[i] = currentResult;
 		}
-		System.out.println(bestResult);
+		
+		Statistics s = new Statistics(data);
 
-		System.out.println(bestResult + " runtime: " + (System.currentTimeMillis() - time));
+		System.out.println("Mean: " + s.getMean());
+		System.out.println("Best result: " + bestResult + " runtime: " + (System.currentTimeMillis() - time));
 
 	}
 
