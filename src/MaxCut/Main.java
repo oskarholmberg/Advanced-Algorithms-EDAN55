@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Random;
 
 public class Main {
-	public static final int runTimes = 1000;
+	public static final int runTimes = 100;
 	public static Random r;
 
 	public static void main(String[] args) {
