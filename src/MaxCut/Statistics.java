@@ -1,4 +1,4 @@
-package MarkingTree;
+package MaxCut;
 
 import java.util.Arrays;
 
@@ -14,7 +14,7 @@ public class Statistics
         size = data.length;
     }   
 
-    public double getMean()
+    double getMean()
     {
         double sum = 0.0;
         for(double a : data)

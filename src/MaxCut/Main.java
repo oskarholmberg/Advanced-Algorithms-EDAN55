@@ -1,39 +1,43 @@
 package MaxCut;
+
 import java.util.Collection;
 import java.util.Random;
+
+import MarkingTree.Statistics;
 
 public class Main {
 	public static final int runTimes = 100;
 	public static Random r;
 
 	public static void main(String[] args) {
-		double bestResult = Double.MIN_VALUE;
-		double avgResult = 0;
+		int bestResult = Integer.MIN_VALUE;
+
+		Parser parser = new Parser();
+		// parser.parse("src/MaxCut/pw09_100.9.txt");
+		parser.parse("src/MaxCut/matching_1000.txt");
 		r = new Random();
 
 		long time = System.currentTimeMillis();
-
-		Parser parser = new Parser();
-//		parser.parse("src/MaxCut/matching_1000.txt");
-		parser.parse("src/MaxCut/pw09_100.9.txt");
-
 		Collection<Node> nodes = parser.getNodes().values();
 		Collection<Edge> edges = parser.getEdges();
-		
+		double[] data = new double[runTimes];
+
 		for (int i = 0; i < runTimes; i++) {
 			randomizeNodes(nodes);
-			double cutValue = getValueOfCut(edges);
-			bestResult = Math.max(bestResult, cutValue);
-			avgResult+= cutValue;
+			int currentResult = getValueOfCut(edges);
+			System.out.println(currentResult);
+			bestResult = Math.max(bestResult, currentResult);
+			data[i] = currentResult;
 		}
-		System.out.println("best result: " + bestResult + " avg cutsize: " + (avgResult/runTimes) +
-				" % of OPT: " + (avgResult/runTimes/13568) +
-				" runtime: " + (System.currentTimeMillis()-time));
-		System.out.println("Avarage weight: " + getAvgWeight(edges));
+		
+		Statistics s = new Statistics(data);
+
+		System.out.println("Mean: " + s.getMean());
+		System.out.println("Best result: " + bestResult + " runtime: " + (System.currentTimeMillis() - time));
 	}
 
-	public static double getValueOfCut(Collection<Edge> edges) {
-		double total = 0;
+	public static int getValueOfCut(Collection<Edge> edges) {
+		int total = 0;
 		for (Edge e : edges) {
 			if (e.n1.location != e.n2.location)
 				total += e.weight;
