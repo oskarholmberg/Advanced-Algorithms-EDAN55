@@ -3,11 +3,12 @@ import java.util.Collection;
 import java.util.Random;
 
 public class Main {
-	public static final int runTimes = 1000;
+	public static final int runTimes = 100;
 	public static Random r;
 
 	public static void main(String[] args) {
 		double bestResult = Double.MIN_VALUE;
+		double avgResult = 0;
 		r = new Random();
 
 		long time = System.currentTimeMillis();
@@ -21,10 +22,14 @@ public class Main {
 		
 		for (int i = 0; i < runTimes; i++) {
 			randomizeNodes(nodes);
-			bestResult = Math.max(bestResult, getValueOfCut(edges));
+			double cutValue = getValueOfCut(edges);
+			bestResult = Math.max(bestResult, cutValue);
+			avgResult+= cutValue;
 		}
-		System.out.println(bestResult + " runtime: " + (System.currentTimeMillis()-time));
-
+		System.out.println("best result: " + bestResult + " avg cutsize: " + (avgResult/runTimes) +
+				" % of OPT: " + (avgResult/runTimes/13568) +
+				" runtime: " + (System.currentTimeMillis()-time));
+		System.out.println("Avarage weight: " + getAvgWeight(edges));
 	}
 
 	public static double getValueOfCut(Collection<Edge> edges) {
@@ -34,6 +39,17 @@ public class Main {
 				total += e.weight;
 		}
 		return total;
+	}
+
+	public static double getAvgWeight(Collection<Edge> edges){
+		double total = 0;
+		int nbrEdges = 0;
+		for (Edge e : edges) {
+			total+=e.weight;
+			nbrEdges++;
+		}
+		System.out.println("nbr edges: " + nbrEdges);
+		return total/nbrEdges;
 	}
 
 	public static void randomizeNodes(Collection<Node> nodes) {
