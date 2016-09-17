@@ -11,42 +11,39 @@ import MaxCut.Edge;
 import MaxCut.Node;
 
 public class Parser {
-	
+
 	int size;
 	int[][] neighbours;
-	
+
 	public Parser(String path) {
 		parse(path);
-		
-		}
 
-	
+	}
+
 	public void parse(String filename) {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
-            String line = br.readLine();
-            line = br.readLine();
-            String[] data;
-            int currentLine = 0;
-            while (line != null) {
-                data = line.split(" ");
-                if (currentLine == 0) {
-                	size = Integer.parseInt(data[0]);
-                } else {
-                	for (int i = 0; i < data.length; i++) {
-                		neighbours[currentLine-1][i] = Integer.parseInt(data[0]);
-                	}              	
-                }
-                currentLine++; 
-            }
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			String line = br.readLine();
+			size = line;
+			line = br.readLine();
+			String[] data;
+			int currentNode = 0;
+			while (line != null) {
+				data = line.split(" ");
+				for (int i = 0; i < data.length; i++) {
+					neighbours[currentNode][i] = Integer.parseInt(data[i]);
+				}
+				currentNode++;
+				br.readLine();
+			}
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-	
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public int getSize() {
 		return size;
 	}
