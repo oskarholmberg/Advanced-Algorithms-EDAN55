@@ -34,7 +34,6 @@ public class Main {
 
 		System.out.println("Mean: " + s.getMean());
 		System.out.println("Best result: " + bestResult + " runtime: " + (System.currentTimeMillis() - time));
-
 	}
 
 	public static int getValueOfCut(Collection<Edge> edges) {
@@ -44,6 +43,17 @@ public class Main {
 				total += e.weight;
 		}
 		return total;
+	}
+
+	public static double getAvgWeight(Collection<Edge> edges){
+		double total = 0;
+		int nbrEdges = 0;
+		for (Edge e : edges) {
+			total+=e.weight;
+			nbrEdges++;
+		}
+		System.out.println("nbr edges: " + nbrEdges);
+		return total/nbrEdges;
 	}
 
 	public static void randomizeNodes(Collection<Node> nodes) {
