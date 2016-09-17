@@ -65,11 +65,11 @@ public class Main {
 			independentSet.add(n);
 			remaining.remove(n);
 		}
-		HashSet<Node> nodesCopy = copySet(remaining);
-		HashSet<Node> independentSetCopy = copySet(independentSet);
 
 		Node chosen = remaining.iterator().next();
 		// try removing it, have to create new hashSets
+		HashSet<Node> nodesCopy = copySet(remaining);
+		HashSet<Node> independentSetCopy = copySet(independentSet);
 		nodesCopy.remove(chosen);
 		HashSet<Node> result1 = getIndependentSet(nodesCopy, independentSetCopy);
 
