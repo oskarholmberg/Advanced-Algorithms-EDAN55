@@ -24,7 +24,7 @@ public class Parser {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filename));
 			String line = br.readLine();
-			size = line;
+			size = Integer.parseInt(line);
 			line = br.readLine();
 			String[] data;
 			int currentNode = 0;
