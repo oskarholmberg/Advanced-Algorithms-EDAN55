@@ -23,7 +23,7 @@ public class Main {
 		Parser parser = new Parser("src/IndependentSet/g4.in");
 		
 		for (int i = 0; i < parser.getSize(); i++) {
-			Node n = new Node();
+			Node n = new Node(i);
 			start.add(n);
 			startMap.put(i, n);
 		}

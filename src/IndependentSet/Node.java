@@ -4,9 +4,11 @@ import java.util.HashSet;
 
 public class Node {
 
+	public int id;
 	public HashSet<Node> neighbours;
 
-	public Node() {
+	public Node(int id) {
+		this.id = id;
 	}
 
 	
