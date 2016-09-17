@@ -3,32 +3,31 @@ package IndependentSet;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Main {
-	
+
 	public static HashSet<Node> start;
 
 	public static void main(String[] args) {
 		setup();
 
-
-	System.out.println(getIndependentSet(start, new HashSet<Node>()).size());
-
+		System.out.println(getIndependentSet(start, new HashSet<Node>()).size());
 
 	}
-	
+
 	public static void setup() {
 		start = new HashSet<Node>();
 		HashMap<Integer, Node> startMap = new HashMap<Integer, Node>();
 		Parser parser = new Parser("src/IndependentSet/g4.in");
-		
+
 		for (int i = 0; i < parser.getSize(); i++) {
 			Node n = new Node();
 			start.add(n);
 			startMap.put(i, n);
 		}
-		
-		for (int i = 0; i < parser.getSize(); i++){
+
+		for (int i = 0; i < parser.getSize(); i++) {
 			int[] neighbours = parser.getNeighbours(i);
 			HashSet<Node> temp = new HashSet<Node>();
 			for (int j = 0; j < neighbours.length; j++) {
@@ -52,16 +51,21 @@ public class Main {
 			return independentSet;
 		}
 
-		outerLoop: for (Node n : remaining) {
-			for (Node n2 : n.neighbours) {
+		Iterator<Node> it = remaining.iterator();
+		
+		outerLoop:
+		while (it.hasNext()){
+			Node curr = it.next();
+			for (Node n2 : curr.neighbours) {
 				if (remaining.contains(n2)) {
 					continue outerLoop;
 				}
+				// no remaining found
+				independentSet.add(curr);
+				remaining.remove(curr);
 			}
-			// no remaining found
-			independentSet.add(n);
-			remaining.remove(n);
 		}
+
 
 		Node chosen = remaining.iterator().next();
 		// try removing it, have to create new hashSets
