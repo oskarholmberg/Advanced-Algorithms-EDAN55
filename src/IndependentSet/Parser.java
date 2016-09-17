@@ -27,12 +27,17 @@ public class Parser {
             String line = br.readLine();
             line = br.readLine();
             String[] data;
-            size = 0;
+            int currentLine = 0;
             while (line != null) {
-            	size++;
                 data = line.split(" ");
-                
- 
+                if (currentLine == 0) {
+                	size = Integer.parseInt(data[0]);
+                } else {
+                	for (int i = 0; i < data.length; i++) {
+                		neighbours[currentLine-1][i] = Integer.parseInt(data[0]);
+                	}              	
+                }
+                currentLine++; 
             }
 
         } catch (FileNotFoundException e) {
@@ -41,8 +46,12 @@ public class Parser {
             e.printStackTrace();
         }
     }
+	
+	public int getSize() {
+		return size;
+	}
 
-	
-	
-	
+	public int[] getNeighbours(int node) {
+		return neighbours[node];
+	}
 }
