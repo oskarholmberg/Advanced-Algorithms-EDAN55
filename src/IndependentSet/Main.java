@@ -9,14 +9,14 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		System.out.println(getIndependentSet(setup(), new HashSet<Node>()).size());
+		System.out.println(getIndependentSet(setup(), new HashSet<Node>()));
 
 	}
 
 	public static HashSet<Node> setup() {
 		HashSet<Node> start = new HashSet<Node>();
 		HashMap<Integer, Node> startMap = new HashMap<Integer, Node>();
-		Parser parser = new Parser("src/IndependentSet/g50.in");
+		Parser parser = new Parser("src/IndependentSet/g4.in");
 
 		for (int i = 0; i < parser.getSize(); i++) {
 			Node n = new Node();
@@ -45,12 +45,12 @@ public class Main {
 		return newNodes;
 	}
 
-	public static HashSet<Node> getIndependentSet(HashSet<Node> remaining, HashSet<Node> independentSet) {
+	public static int getIndependentSet(HashSet<Node> remaining, HashSet<Node> independentSet) {
 		if (remaining.isEmpty()) {
-			return independentSet;
+			return independentSet.size();
 		}
 
-		HashSet<Node> toRemove = new HashSet<Node>();
+		HashSet<Node> empty = new HashSet<Node>();
 		outerLoop: for (Node n : remaining) {
 			for (Node n2 : n.neighbours) {
 				if (remaining.contains(n2)) {
@@ -58,31 +58,44 @@ public class Main {
 				}
 			}
 			independentSet.add(n);
-			toRemove.add(n);
+			empty.add(n);
 		}
-		for (Node n : toRemove) {
+		for (Node n : empty) {
 			remaining.remove(n);
 		}
 
 		if (remaining.isEmpty()) {
-			return independentSet;
+			return independentSet.size();
 		}
 
 		Node chosen = remaining.iterator().next();
 		// try removing it, have to create new hashSets
-		HashSet<Node> nodesCopy = copySet(remaining);
-		HashSet<Node> independentSetCopy = copySet(independentSet);
-		nodesCopy.remove(chosen);
-		HashSet<Node> result1 = getIndependentSet(nodesCopy, independentSetCopy);
+//		HashSet<Node> nodesCopy = copySet(remaining);
+//		HashSet<Node> independentSetCopy = copySet(independentSet);
+		remaining.remove(chosen);
+		int result1 = getIndependentSet(remaining, independentSet);
+		remaining.add(chosen);
 		
 
 		// try adding the node to independent set, just use the old sets to save
 		// performance
+		HashSet<Node> toRemove = new HashSet<Node>();
+		for (Node n : chosen.neighbours){
+			if (remaining.contains(n)){
+				toRemove.add(n);
+			}
+		}
+		
 		independentSet.add(chosen);
-		remaining.removeAll(chosen.neighbours);
-		HashSet<Node> result2 = getIndependentSet(remaining, independentSet);
+		remaining.removeAll(toRemove);
+		int result2 = getIndependentSet(remaining, independentSet);
+		independentSet.remove(chosen);
+		remaining.addAll(toRemove);
+		
+		remaining.addAll(empty);
+		independentSet.removeAll(empty);
 
-		return (result1.size() > result2.size()) ? result1 : result2;
+		return (result1 > result2) ? result1 : result2;
 
 	}
 }
