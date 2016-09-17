@@ -1,9 +1,6 @@
 package IndependentSet;
 
-<<<<<<< HEAD
-=======
 import java.util.Collection;
->>>>>>> dc2d13a5d27e9314cebb340c1c447fff93f812b7
 import java.util.HashMap;
 import java.util.HashSet;
 
