@@ -25,16 +25,18 @@ public class Parser {
 			BufferedReader br = new BufferedReader(new FileReader(filename));
 			String line = br.readLine();
 			size = Integer.parseInt(line);
+			neighbours = new int[100][100];
 			line = br.readLine();
 			String[] data;
 			int currentNode = 0;
 			while (line != null) {
 				data = line.split(" ");
 				for (int i = 0; i < data.length; i++) {
+					System.out.println(currentNode + "   -   "  + i);
 					neighbours[currentNode][i] = Integer.parseInt(data[i]);
 				}
 				currentNode++;
-				br.readLine();
+				line = br.readLine();
 			}
 
 		} catch (FileNotFoundException e) {

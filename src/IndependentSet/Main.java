@@ -20,7 +20,7 @@ public class Main {
 	public static void setup() {
 		start = new HashSet<Node>();
 		HashMap<Integer, Node> startMap = new HashMap<Integer, Node>();
-		Parser parser = new Parser("filename");
+		Parser parser = new Parser("src/IndependentSet/g4.in");
 		
 		for (int i = 0; i < parser.getSize(); i++) {
 			Node n = new Node();
