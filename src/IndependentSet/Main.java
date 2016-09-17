@@ -35,6 +35,7 @@ public class Main {
 					temp.add(startMap.get(j));
 				}
 			}
+
 			startMap.get(i).addNeighbours(temp);
 		}
 
