@@ -1,10 +1,10 @@
-package DecrNConq;
+package IndependentSet;
 
 import java.util.HashSet;
 
 public class Node {
 
-	private HashSet<Node> neighbours;
+	public HashSet<Node> neighbours;
 
 	public Node() {
 
