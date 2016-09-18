@@ -11,13 +11,10 @@ public class Main {
 
 	static long dur = 0;
 
-	public static int best = 0;
-
 	public static void main(String[] args) {
 
 		long time = System.currentTimeMillis();
-		getIndependentSet(setup(), new HashSet<Node>());
-		System.out.println("best: " + best);
+		System.out.println("best: " + getIndependentSet(setup()));
 		System.out.println("time: " + (System.currentTimeMillis() - time));
 		// System.out.println(dur);
 
@@ -55,54 +52,75 @@ public class Main {
 		return newNodes;
 	}
 
-	public static void getIndependentSet(Collection<Node> remaining, HashSet<Node> independentSet) {
-		if (remaining.size() + independentSet.size() <= best) {
-			return;
-		}
-
-		List<Node> empty = new ArrayList<Node>();
-		outerLoop: for (Node n : remaining) {
-			for (Node n2 : n.neighbours) {
-				if (remaining.contains(n2)) {
-					break outerLoop;
-				}
-			}
-			empty.add(n);
-		}
-		remaining.removeAll(empty);
-		independentSet.addAll(empty);
+	public static int getIndependentSet(Collection<Node> remaining) {
 
 		if (remaining.isEmpty()) {
-			best = independentSet.size();
-			remaining.addAll(empty);
-			independentSet.removeAll(empty);
-			return;
+			return 0;
 		}
-
+		// List<Node> empty = new ArrayList<Node>();
+		for (Node n : remaining) {
+			if (n.neighbours.size() == 0) {
+				remaining.remove(n);
+				int res = 1 + getIndependentSet(remaining);
+				remaining.add(n);
+				return res;
+			}
+			
+			if (n.neighbours.size() == 1){
+				// R1
+				remaining.remove(n);
+				Node neighbor = n.neighbours.iterator().next();
+				remaining.remove(neighbor);
+				for (Node n2 : neighbor.neighbours){
+					n2.neighbours.remove(neighbor);
+				}
+				int res = 1 + getIndependentSet(remaining);
+				
+				for (Node n2 : neighbor.neighbours){
+					n2.neighbours.add(neighbor);
+				}
+				remaining.add(n);
+				remaining.add(neighbor);
+				return res;
+			}
+		}
 		// try removing the node
 		Node chosen = remaining.iterator().next();
 		remaining.remove(chosen);
-		getIndependentSet(remaining, independentSet);
+		for (Node n : chosen.neighbours) {
+			n.neighbours.remove(chosen);
+		}
+		int res1 = getIndependentSet(remaining);
+		for (Node n : chosen.neighbours) {
+			n.neighbours.add(chosen);
+		}
 		remaining.add(chosen);
 
 		// try adding the node to independent set
-		
+
 		List<Node> toRemove = new ArrayList<Node>();
 		for (Node n : chosen.neighbours) {
-			if (remaining.contains(n)) {
-				toRemove.add(n);
-			}
+			toRemove.add(n);
 		}
 
+		for (Node n : toRemove){
+			for (Node n2 : n.neighbours){
+				n2.neighbours.remove(n);
+			}
+		}
 		remaining.removeAll(toRemove);
-		independentSet.add(chosen);
-		getIndependentSet(remaining, independentSet);
-		independentSet.remove(chosen);
+		remaining.remove(chosen);
+		int res2 = 1 + getIndependentSet(remaining);
+		// chosen.neighbours.addAll(toRemove);
 		remaining.addAll(toRemove);
-
-		// return to prev
-		remaining.addAll(empty);
-		independentSet.removeAll(empty);
+		remaining.add(chosen);
+		
+		for (Node n : toRemove){
+			for (Node n2 : n.neighbours){
+				n2.neighbours.add(n);
+			}
+		}
+		return res1 > res2 ? res1 : res2;
 
 	}
 
