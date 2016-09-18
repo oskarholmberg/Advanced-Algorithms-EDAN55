@@ -23,7 +23,7 @@ public class Main {
 	public static Collection<Node> setup() {
 		HashSet<Node> start = new HashSet<Node>();
 		HashMap<Integer, Node> startMap = new HashMap<Integer, Node>();
-		Parser parser = new Parser("src/IndependentSet/g80.in");
+		Parser parser = new Parser("src/IndependentSet/g120.in");
 
 		for (int i = 0; i < parser.getSize(); i++) {
 			Node n = new Node();
@@ -57,7 +57,6 @@ public class Main {
 		if (remaining.isEmpty()) {
 			return 0;
 		}
-		// List<Node> empty = new ArrayList<Node>();
 		for (Node n : remaining) {
 			if (n.neighbours.size() == 0) {
 				remaining.remove(n);
@@ -65,25 +64,81 @@ public class Main {
 				remaining.add(n);
 				return res;
 			}
-			
-			if (n.neighbours.size() == 1){
-				// R1
-				remaining.remove(n);
-				Node neighbor = n.neighbours.iterator().next();
-				remaining.remove(neighbor);
-				for (Node n2 : neighbor.neighbours){
-					n2.neighbours.remove(neighbor);
-				}
+
+			// R1
+			if (n.neighbours.size() == 1) {
+				addToIndependent(n, remaining);
 				int res = 1 + getIndependentSet(remaining);
-				
-				for (Node n2 : neighbor.neighbours){
-					n2.neighbours.add(neighbor);
-				}
-				remaining.add(n);
-				remaining.add(neighbor);
+				removeFromIndependent(n, remaining);
 				return res;
 			}
+
+			// R2
+
+			if (n.neighbours.size() == 2) {
+				Iterator<Node> it = n.neighbours.iterator();
+				Node n1 = it.next();
+				Node n2 = it.next();
+				if (n1.neighbours.contains(n2)) {
+					addToIndependent(n, remaining);
+					int res = 1 + getIndependentSet(remaining);
+					removeFromIndependent(n, remaining);
+					return res;
+
+				}
+				else{
+					Node newNode = new Node();
+					
+					HashSet<Node> neighbors = new HashSet<Node>();
+					neighbors.addAll(n1.neighbours);
+					neighbors.addAll(n2.neighbours);
+					newNode.addNeighbours(neighbors);
+					
+					newNode.neighbours.remove(n1);
+					newNode.neighbours.remove(n2);
+					newNode.neighbours.remove(n);
+					
+					for (Node n3 : n1.neighbours){
+						n3.neighbours.remove(n1);
+					}
+					for (Node n3 : n2.neighbours){
+						n3.neighbours.remove(n2);
+					}
+					
+					for (Node n3 : newNode.neighbours){
+						n3.neighbours.add(newNode);
+					}
+					
+					remaining.remove(n);
+					remaining.remove(n1);
+					remaining.remove(n2);
+					
+					remaining.add(newNode);
+
+					int res = 1 + getIndependentSet(remaining);
+					
+					remaining.remove(newNode);
+					remaining.add(n);
+					
+					remaining.add(n1);
+					remaining.add(n2);
+					
+					for (Node n3 : n1.neighbours){
+						n3.neighbours.add(n1);
+					}
+					for (Node n3 : n2.neighbours){
+						n3.neighbours.add(n2);
+					}
+					
+					for (Node n3 : newNode.neighbours){
+						n3.neighbours.remove(newNode);
+					}
+
+					return res;
+				}
+			}
 		}
+		
 		// try removing the node
 		Node chosen = remaining.iterator().next();
 		remaining.remove(chosen);
@@ -98,30 +153,33 @@ public class Main {
 
 		// try adding the node to independent set
 
-		List<Node> toRemove = new ArrayList<Node>();
-		for (Node n : chosen.neighbours) {
-			toRemove.add(n);
-		}
-
-		for (Node n : toRemove){
-			for (Node n2 : n.neighbours){
-				n2.neighbours.remove(n);
-			}
-		}
-		remaining.removeAll(toRemove);
-		remaining.remove(chosen);
+		addToIndependent(chosen, remaining);
 		int res2 = 1 + getIndependentSet(remaining);
-		// chosen.neighbours.addAll(toRemove);
-		remaining.addAll(toRemove);
-		remaining.add(chosen);
-		
-		for (Node n : toRemove){
-			for (Node n2 : n.neighbours){
-				n2.neighbours.add(n);
-			}
-		}
+		removeFromIndependent(chosen, remaining);
+
 		return res1 > res2 ? res1 : res2;
 
+	}
+
+	public static void addToIndependent(Node n, Collection<Node> remaining) {
+		remaining.removeAll(n.neighbours);
+		remaining.remove(n);
+		for (Node n2 : n.neighbours) {
+			for (Node n3 : n2.neighbours) {
+				if (n3 != n)
+					n3.neighbours.remove(n2);
+			}
+		}
+	}
+
+	public static void removeFromIndependent(Node n, Collection<Node> remaining) {
+		remaining.addAll(n.neighbours);
+		remaining.add(n);
+		for (Node n2 : n.neighbours) {
+			for (Node n3 : n2.neighbours) {
+				n3.neighbours.add(n2);
+			}
+		}
 	}
 
 }
