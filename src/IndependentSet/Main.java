@@ -16,7 +16,7 @@ public class Main {
 	public static HashSet<Node> setup() {
 		HashSet<Node> start = new HashSet<Node>();
 		HashMap<Integer, Node> startMap = new HashMap<Integer, Node>();
-		Parser parser = new Parser("src/IndependentSet/g4.in");
+		Parser parser = new Parser("src/IndependentSet/g60.in");
 
 		for (int i = 0; i < parser.getSize(); i++) {
 			Node n = new Node();
@@ -46,6 +46,7 @@ public class Main {
 	}
 
 	public static int getIndependentSet(HashSet<Node> remaining, HashSet<Node> independentSet) {
+//		System.out.println(independentSet.size());
 		if (remaining.isEmpty()) {
 			return independentSet.size();
 		}
@@ -65,7 +66,10 @@ public class Main {
 		}
 
 		if (remaining.isEmpty()) {
-			return independentSet.size();
+			int size = independentSet.size();
+			remaining.addAll(empty);
+			independentSet.removeAll(empty);
+			return size;
 		}
 
 		Node chosen = remaining.iterator().next();
@@ -86,8 +90,8 @@ public class Main {
 			}
 		}
 		
-		independentSet.add(chosen);
 		remaining.removeAll(toRemove);
+		independentSet.add(chosen);
 		int result2 = getIndependentSet(remaining, independentSet);
 		independentSet.remove(chosen);
 		remaining.addAll(toRemove);
