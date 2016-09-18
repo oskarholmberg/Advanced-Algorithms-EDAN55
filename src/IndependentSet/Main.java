@@ -1,22 +1,32 @@
 package IndependentSet;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 public class Main {
 
+	static long dur = 0;
+
+	public static int best = 0;
+
 	public static void main(String[] args) {
 
-		System.out.println(getIndependentSet(setup(), new HashSet<Node>()));
+		long time = System.currentTimeMillis();
+		getIndependentSet(setup(), new HashSet<Node>());
+		System.out.println("best: " + best);
+		System.out.println("time: " + (System.currentTimeMillis() - time));
+		// System.out.println(dur);
 
 	}
 
-	public static HashSet<Node> setup() {
+	public static Collection<Node> setup() {
 		HashSet<Node> start = new HashSet<Node>();
 		HashMap<Integer, Node> startMap = new HashMap<Integer, Node>();
-		Parser parser = new Parser("src/IndependentSet/g60.in");
+		Parser parser = new Parser("src/IndependentSet/g80.in");
 
 		for (int i = 0; i < parser.getSize(); i++) {
 			Node n = new Node();
@@ -45,61 +55,55 @@ public class Main {
 		return newNodes;
 	}
 
-	public static int getIndependentSet(HashSet<Node> remaining, HashSet<Node> independentSet) {
-//		System.out.println(independentSet.size());
-		if (remaining.isEmpty()) {
-			return independentSet.size();
+	public static void getIndependentSet(Collection<Node> remaining, HashSet<Node> independentSet) {
+		if (remaining.size() + independentSet.size() <= best) {
+			return;
 		}
 
-		HashSet<Node> empty = new HashSet<Node>();
+		List<Node> empty = new ArrayList<Node>();
 		outerLoop: for (Node n : remaining) {
 			for (Node n2 : n.neighbours) {
 				if (remaining.contains(n2)) {
-					continue outerLoop;
+					break outerLoop;
 				}
 			}
-			independentSet.add(n);
 			empty.add(n);
 		}
-		for (Node n : empty) {
-			remaining.remove(n);
-		}
+		remaining.removeAll(empty);
+		independentSet.addAll(empty);
 
 		if (remaining.isEmpty()) {
-			int size = independentSet.size();
+			best = independentSet.size();
 			remaining.addAll(empty);
 			independentSet.removeAll(empty);
-			return size;
+			return;
 		}
 
+		// try removing the node
 		Node chosen = remaining.iterator().next();
-		// try removing it, have to create new hashSets
-//		HashSet<Node> nodesCopy = copySet(remaining);
-//		HashSet<Node> independentSetCopy = copySet(independentSet);
 		remaining.remove(chosen);
-		int result1 = getIndependentSet(remaining, independentSet);
+		getIndependentSet(remaining, independentSet);
 		remaining.add(chosen);
-		
 
-		// try adding the node to independent set, just use the old sets to save
-		// performance
-		HashSet<Node> toRemove = new HashSet<Node>();
-		for (Node n : chosen.neighbours){
-			if (remaining.contains(n)){
+		// try adding the node to independent set
+		
+		List<Node> toRemove = new ArrayList<Node>();
+		for (Node n : chosen.neighbours) {
+			if (remaining.contains(n)) {
 				toRemove.add(n);
 			}
 		}
-		
+
 		remaining.removeAll(toRemove);
 		independentSet.add(chosen);
-		int result2 = getIndependentSet(remaining, independentSet);
+		getIndependentSet(remaining, independentSet);
 		independentSet.remove(chosen);
 		remaining.addAll(toRemove);
-		
+
+		// return to prev
 		remaining.addAll(empty);
 		independentSet.removeAll(empty);
 
-		return (result1 > result2) ? result1 : result2;
-
 	}
+
 }
