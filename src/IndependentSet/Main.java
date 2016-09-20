@@ -26,7 +26,7 @@ public class Main {
 		Parser parser = new Parser("src/IndependentSet/g80.in");
 
 		for (int i = 0; i < parser.getSize(); i++) {
-			Node n = new Node(i);
+			Node n = new Node();
 			start.add(n);
 			startMap.put(i, n);
 		}
