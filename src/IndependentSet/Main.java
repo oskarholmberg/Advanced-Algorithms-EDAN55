@@ -13,30 +13,31 @@ public class Main {
 	static int calls;
 
 	public static void main(String[] args) {
-		
 
-		for (int i = 40; i < 80; i += 10) {
-			
-			String alg = "r2";
-			
-			long time = System.currentTimeMillis();
-			calls = 0;
-			// getIndependentSet(setup("src/IndependentSet/g" + i + ".in"));
-			System.out.println(alg + " with " + i + " nodes");
+		for (int j = 0; j < 50; j++) {
+			for (int i = 70; i < 80; i += 10) {
 
-			System.out.println("\tbest: "
-					+ getIndependentSet(setup("src/IndependentSet/g" + i
-							+ ".in"), alg));
-			System.out.println("\tcalls: " + calls);
-			System.out.println("\tlog calls: " + Math.log(calls));
-			System.out.println("\ttime: " + (System.currentTimeMillis() - time));
-			System.out.println();
+				String alg = "r2";
 
+				long time = System.currentTimeMillis();
+				calls = 0;
+				// getIndependentSet(setup("src/IndependentSet/g" + i + ".in"));
+				System.out.println(alg + " with " + i + " nodes");
+
+				System.out.println("\tbest: "
+						+ getIndependentSet(setup("src/IndependentSet/g" + i
+								+ ".in"), alg));
+				System.out.println("\tcalls: " + calls);
+				System.out.println("\tlog calls: " + Math.log(calls));
+				System.out.println("\ttime: "
+						+ (System.currentTimeMillis() - time));
+				System.out.println();
+
+			}
+			// System.out.println("best: " + getIndependentSet(setup()));
+
+			// System.out.println(dur);
 		}
-		// System.out.println("best: " + getIndependentSet(setup()));
-
-		// System.out.println(dur);
-
 	}
 
 	public static Collection<Node> setup(String path) {
@@ -87,7 +88,7 @@ public class Main {
 
 			// R1
 
-			if (alg.equals("r1") ||alg.equals("r2")) {
+			if (alg.equals("r1") || alg.equals("r2")) {
 				if (n.neighbours.size() == 1) {
 					addToIndependent(n, remaining);
 					int res = 1 + getIndependentSet(remaining, alg);
