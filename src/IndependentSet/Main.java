@@ -10,20 +10,29 @@ import java.util.List;
 public class Main {
 
 	static long dur = 0;
+	static int calls;
 
 	public static void main(String[] args) {
 
 		long time = System.currentTimeMillis();
-		System.out.println("best: " + getIndependentSet(setup()));
+		for (int i = 40; i < 80; i += 10) {
+			calls = 0;
+//			getIndependentSet(setup("src/IndependentSet/g" + i + ".in"));
+			System.out.println("best: " + getIndependentSet(setup("src/IndependentSet/g" + i + ".in")));
+			System.out.println("calls for " + i + ":" + calls);
+
+		}
+		// System.out.println("best: " + getIndependentSet(setup()));
+
 		System.out.println("time: " + (System.currentTimeMillis() - time));
 		// System.out.println(dur);
 
 	}
 
-	public static Collection<Node> setup() {
+	public static Collection<Node> setup(String path) {
 		HashSet<Node> start = new HashSet<Node>();
 		HashMap<Integer, Node> startMap = new HashMap<Integer, Node>();
-		Parser parser = new Parser("src/IndependentSet/g80.in");
+		Parser parser = new Parser(path);
 
 		for (int i = 0; i < parser.getSize(); i++) {
 			Node n = new Node();
@@ -53,7 +62,7 @@ public class Main {
 	}
 
 	public static int getIndependentSet(Collection<Node> remaining) {
-
+		calls++;
 
 		if (remaining.isEmpty()) {
 			return 0;
@@ -86,55 +95,54 @@ public class Main {
 					removeFromIndependent(n, remaining);
 					return res;
 
-				}
-				else{
-					
+				} else {
+
 					// magic
-					
+
 					Node newNode = new Node();
-					
+
 					HashSet<Node> neighbors = new HashSet<Node>();
 					neighbors.addAll(n1.neighbours);
 					neighbors.addAll(n2.neighbours);
 					newNode.addNeighbours(neighbors);
-					
+
 					newNode.neighbours.remove(n1);
 					newNode.neighbours.remove(n2);
 					newNode.neighbours.remove(n);
-					
-					for (Node n3 : n1.neighbours){
+
+					for (Node n3 : n1.neighbours) {
 						n3.neighbours.remove(n1);
 					}
-					for (Node n3 : n2.neighbours){
+					for (Node n3 : n2.neighbours) {
 						n3.neighbours.remove(n2);
 					}
-					
-					for (Node n3 : newNode.neighbours){
+
+					for (Node n3 : newNode.neighbours) {
 						n3.neighbours.add(newNode);
 					}
-					
+
 					remaining.remove(n);
 					remaining.remove(n1);
 					remaining.remove(n2);
-					
+
 					remaining.add(newNode);
 
 					int res = 1 + getIndependentSet(remaining);
-					
+
 					remaining.remove(newNode);
 					remaining.add(n);
-					
+
 					remaining.add(n1);
 					remaining.add(n2);
-					
-					for (Node n3 : n1.neighbours){
+
+					for (Node n3 : n1.neighbours) {
 						n3.neighbours.add(n1);
 					}
-					for (Node n3 : n2.neighbours){
+					for (Node n3 : n2.neighbours) {
 						n3.neighbours.add(n2);
 					}
-					
-					for (Node n3 : newNode.neighbours){
+
+					for (Node n3 : newNode.neighbours) {
 						n3.neighbours.remove(newNode);
 					}
 
@@ -142,7 +150,7 @@ public class Main {
 				}
 			}
 		}
-		
+
 		// try removing the node
 		Node chosen = remaining.iterator().next();
 		remaining.remove(chosen);
@@ -160,7 +168,7 @@ public class Main {
 		addToIndependent(chosen, remaining);
 		int res2 = 1 + getIndependentSet(remaining);
 		removeFromIndependent(chosen, remaining);
-		
+
 		// take the best result
 
 		return res1 > res2 ? res1 : res2;
