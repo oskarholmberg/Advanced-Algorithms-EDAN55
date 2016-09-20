@@ -13,17 +13,23 @@ public class Main {
 	static int calls;
 
 	public static void main(String[] args) {
-
 		
+
 		for (int i = 40; i < 80; i += 10) {
+			
+			String alg = "r2";
+			
 			long time = System.currentTimeMillis();
 			calls = 0;
-//			getIndependentSet(setup("src/IndependentSet/g" + i + ".in"));
-			System.out.println("Statistics for " + i + " nodes");
-			System.out.println("best: " + getIndependentSet(setup("src/IndependentSet/g" + i + ".in")));
-			System.out.println("calls: " + calls);
-			System.out.println("log calls: " + Math.log(calls));
-			System.out.println("time: " + (System.currentTimeMillis() - time));
+			// getIndependentSet(setup("src/IndependentSet/g" + i + ".in"));
+			System.out.println(alg + " with " + i + " nodes");
+
+			System.out.println("\tbest: "
+					+ getIndependentSet(setup("src/IndependentSet/g" + i
+							+ ".in"), alg));
+			System.out.println("\tcalls: " + calls);
+			System.out.println("\tlog calls: " + Math.log(calls));
+			System.out.println("\ttime: " + (System.currentTimeMillis() - time));
 			System.out.println();
 
 		}
@@ -65,7 +71,7 @@ public class Main {
 		return newNodes;
 	}
 
-	public static int getIndependentSet(Collection<Node> remaining) {
+	public static int getIndependentSet(Collection<Node> remaining, String alg) {
 		calls++;
 
 		if (remaining.isEmpty()) {
@@ -74,85 +80,89 @@ public class Main {
 		for (Node n : remaining) {
 			if (n.neighbours.size() == 0) {
 				remaining.remove(n);
-				int res = 1 + getIndependentSet(remaining);
+				int res = 1 + getIndependentSet(remaining, alg);
 				remaining.add(n);
 				return res;
 			}
 
 			// R1
-			if (n.neighbours.size() == 1) {
-				addToIndependent(n, remaining);
-				int res = 1 + getIndependentSet(remaining);
-				removeFromIndependent(n, remaining);
-				return res;
-			}
 
-			/*// R2
-
-			if (n.neighbours.size() == 2) {
-				Iterator<Node> it = n.neighbours.iterator();
-				Node n1 = it.next();
-				Node n2 = it.next();
-				if (n1.neighbours.contains(n2)) {
+			if (alg.equals("r1") ||alg.equals("r2")) {
+				if (n.neighbours.size() == 1) {
 					addToIndependent(n, remaining);
-					int res = 1 + getIndependentSet(remaining);
+					int res = 1 + getIndependentSet(remaining, alg);
 					removeFromIndependent(n, remaining);
 					return res;
-
-				} else {
-
-					// magic
-
-					Node newNode = new Node();
-
-					HashSet<Node> neighbors = new HashSet<Node>();
-					neighbors.addAll(n1.neighbours);
-					neighbors.addAll(n2.neighbours);
-					newNode.addNeighbours(neighbors);
-
-					newNode.neighbours.remove(n1);
-					newNode.neighbours.remove(n2);
-					newNode.neighbours.remove(n);
-
-					for (Node n3 : n1.neighbours) {
-						n3.neighbours.remove(n1);
-					}
-					for (Node n3 : n2.neighbours) {
-						n3.neighbours.remove(n2);
-					}
-
-					for (Node n3 : newNode.neighbours) {
-						n3.neighbours.add(newNode);
-					}
-
-					remaining.remove(n);
-					remaining.remove(n1);
-					remaining.remove(n2);
-
-					remaining.add(newNode);
-
-					int res = 1 + getIndependentSet(remaining);
-
-					remaining.remove(newNode);
-					remaining.add(n);
-
-					remaining.add(n1);
-					remaining.add(n2);
-
-					for (Node n3 : n1.neighbours) {
-						n3.neighbours.add(n1);
-					}
-					for (Node n3 : n2.neighbours) {
-						n3.neighbours.add(n2);
-					}
-
-					for (Node n3 : newNode.neighbours) {
-						n3.neighbours.remove(newNode);
-					}
-
-					return res;
 				}
-			}*/
+			}
+
+			// R2
+			if (alg.equals("r2")) {
+				if (n.neighbours.size() == 2) {
+					Iterator<Node> it = n.neighbours.iterator();
+					Node n1 = it.next();
+					Node n2 = it.next();
+					if (n1.neighbours.contains(n2)) {
+						addToIndependent(n, remaining);
+						int res = 1 + getIndependentSet(remaining, alg);
+						removeFromIndependent(n, remaining);
+						return res;
+
+					} else {
+
+						// magic
+
+						Node newNode = new Node();
+
+						HashSet<Node> neighbors = new HashSet<Node>();
+						neighbors.addAll(n1.neighbours);
+						neighbors.addAll(n2.neighbours);
+						newNode.addNeighbours(neighbors);
+
+						newNode.neighbours.remove(n1);
+						newNode.neighbours.remove(n2);
+						newNode.neighbours.remove(n);
+
+						for (Node n3 : n1.neighbours) {
+							n3.neighbours.remove(n1);
+						}
+						for (Node n3 : n2.neighbours) {
+							n3.neighbours.remove(n2);
+						}
+
+						for (Node n3 : newNode.neighbours) {
+							n3.neighbours.add(newNode);
+						}
+
+						remaining.remove(n);
+						remaining.remove(n1);
+						remaining.remove(n2);
+
+						remaining.add(newNode);
+
+						int res = 1 + getIndependentSet(remaining, alg);
+
+						remaining.remove(newNode);
+						remaining.add(n);
+
+						remaining.add(n1);
+						remaining.add(n2);
+
+						for (Node n3 : n1.neighbours) {
+							n3.neighbours.add(n1);
+						}
+						for (Node n3 : n2.neighbours) {
+							n3.neighbours.add(n2);
+						}
+
+						for (Node n3 : newNode.neighbours) {
+							n3.neighbours.remove(newNode);
+						}
+
+						return res;
+					}
+				}
+			}
 		}
 
 		// try removing the node
@@ -161,7 +171,7 @@ public class Main {
 		for (Node n : chosen.neighbours) {
 			n.neighbours.remove(chosen);
 		}
-		int res1 = getIndependentSet(remaining);
+		int res1 = getIndependentSet(remaining, alg);
 		for (Node n : chosen.neighbours) {
 			n.neighbours.add(chosen);
 		}
@@ -170,7 +180,7 @@ public class Main {
 		// try adding the node to independent set
 
 		addToIndependent(chosen, remaining);
-		int res2 = 1 + getIndependentSet(remaining);
+		int res2 = 1 + getIndependentSet(remaining, alg);
 		removeFromIndependent(chosen, remaining);
 
 		// take the best result
