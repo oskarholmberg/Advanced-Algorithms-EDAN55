@@ -23,7 +23,7 @@ public class Main {
 	public static Collection<Node> setup() {
 		HashSet<Node> start = new HashSet<Node>();
 		HashMap<Integer, Node> startMap = new HashMap<Integer, Node>();
-		Parser parser = new Parser("src/IndependentSet/g120.in");
+		Parser parser = new Parser("src/IndependentSet/g80.in");
 
 		for (int i = 0; i < parser.getSize(); i++) {
 			Node n = new Node();
@@ -53,6 +53,7 @@ public class Main {
 	}
 
 	public static int getIndependentSet(Collection<Node> remaining) {
+
 
 		if (remaining.isEmpty()) {
 			return 0;
@@ -87,6 +88,9 @@ public class Main {
 
 				}
 				else{
+					
+					// magic
+					
 					Node newNode = new Node();
 					
 					HashSet<Node> neighbors = new HashSet<Node>();
@@ -156,6 +160,8 @@ public class Main {
 		addToIndependent(chosen, remaining);
 		int res2 = 1 + getIndependentSet(remaining);
 		removeFromIndependent(chosen, remaining);
+		
+		// take the best result
 
 		return res1 > res2 ? res1 : res2;
 
