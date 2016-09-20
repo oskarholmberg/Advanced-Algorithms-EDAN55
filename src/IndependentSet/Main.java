@@ -14,17 +14,21 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		long time = System.currentTimeMillis();
+		
 		for (int i = 40; i < 80; i += 10) {
+			long time = System.currentTimeMillis();
 			calls = 0;
 //			getIndependentSet(setup("src/IndependentSet/g" + i + ".in"));
+			System.out.println("Statistics for " + i + " nodes");
 			System.out.println("best: " + getIndependentSet(setup("src/IndependentSet/g" + i + ".in")));
-			System.out.println("calls for " + i + ":" + calls);
+			System.out.println("calls: " + calls);
+			System.out.println("log calls: " + Math.log(calls));
+			System.out.println("time: " + (System.currentTimeMillis() - time));
+			System.out.println();
 
 		}
 		// System.out.println("best: " + getIndependentSet(setup()));
 
-		System.out.println("time: " + (System.currentTimeMillis() - time));
 		// System.out.println(dur);
 
 	}
@@ -83,7 +87,7 @@ public class Main {
 				return res;
 			}
 
-			// R2
+			/*// R2
 
 			if (n.neighbours.size() == 2) {
 				Iterator<Node> it = n.neighbours.iterator();
@@ -148,7 +152,7 @@ public class Main {
 
 					return res;
 				}
-			}
+			}*/
 		}
 
 		// try removing the node
