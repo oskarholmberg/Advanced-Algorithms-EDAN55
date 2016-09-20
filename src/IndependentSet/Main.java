@@ -22,13 +22,16 @@ public class Main {
 				long time = System.currentTimeMillis();
 				calls = 0;
 				getIndependentSet(setup("src/IndependentSet/g" + i + ".in"), alg);
-			//System.out.println("\tbest: " + getIndependentSet(setup("src/IndependentSet/g" + i + ".in"), alg));
-//				System.out.println("\ttime: " + (System.currentTimeMillis() - time));
+				// System.out.println("\tbest: " +
+				// getIndependentSet(setup("src/IndependentSet/g" + i + ".in"),
+				// alg));
+				// System.out.println("\ttime: " + (System.currentTimeMillis() -
+				// time));
 				times[j] = (System.currentTimeMillis() - time);
 				// System.out.println();
 			}
 			System.out.println("nodes: " + i);
-			 System.out.println("\tlog calls: " + Math.log(calls));
+			System.out.println("\tlog calls: " + Math.log(calls));
 
 			long avg = 0;
 			for (long l : times) {
@@ -37,11 +40,10 @@ public class Main {
 			avg /= times.length;
 			System.out.println("\ttime: " + avg + " log: " + Math.log(avg));
 
+			// System.out.println("best: " + getIndependentSet(setup()));
+
+			// System.out.println(dur);
 		}
-		// System.out.println("best: " + getIndependentSet(setup()));
-
-		// System.out.println(dur);
-
 	}
 
 	public static Collection<Node> setup(String path) {
