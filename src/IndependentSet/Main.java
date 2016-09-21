@@ -14,7 +14,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		for (int i = 40; i < 110; i += 10) {
+		for (int i = 30; i < 110; i += 10) {
 			long times[] = new long[10];
 			for (int j = 0; j < 10; j++) {
 				String alg = "r2";
@@ -39,7 +39,7 @@ public class Main {
 			}
 			avg /= times.length;
 			System.out.println("\ttime: " + avg + " log: " + Math.log(avg));
-
+			System.out.println("\tC = " + Math.exp(Math.log(avg) / i));
 			// System.out.println("best: " + getIndependentSet(setup()));
 
 			// System.out.println(dur);
