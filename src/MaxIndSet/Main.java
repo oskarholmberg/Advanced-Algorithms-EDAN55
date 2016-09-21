@@ -1,6 +1,5 @@
 package MaxIndSet;
 
-import java.util.stream.IntStream;
 
 /**
  * Created by oskar on 9/20/16.
@@ -8,6 +7,10 @@ import java.util.stream.IntStream;
 public class Main {
     static int[][] vMatrix;
     public static void main(String[] args){
+
+        Parser p = new Parser();
+
+        System.out.println(compute(p.parse("src/MaxIndSet/data/g4.in")));
 
     }
 
@@ -21,7 +24,6 @@ public class Main {
     }
 
     public static int isIncluded(int[][] matrix, int index){
-        int[] neighbours = new int[matrix[1].length];
         for (int i = 0; i < matrix[index].length; i++){
             if (matrix[index][i] == 1){
                 matrix = removeIndex(matrix, i);
@@ -33,6 +35,7 @@ public class Main {
     }
 
     public static int notIncluded(int[][] matrix, int index){
+        matrix = removeIndex(matrix, index);
         return compute(matrix);
     }
 
