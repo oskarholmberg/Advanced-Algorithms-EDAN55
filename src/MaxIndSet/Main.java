@@ -64,11 +64,11 @@ public class Main {
         return new int[]{index, nbrNeighbours};
     }
 
-    public static int neighbourCheck(int[][] matrix, int index){
+    public static int neighbourCheck(int[][] matrix, int index) {
         int temp = 0;
-        for (int i = 0; i < matrix[1].length; i++){
-            if (matrix[index][i] != -1){
-                temp+=matrix[index][i];
+        for (int i = 0; i < matrix[1].length; i++) {
+            if (matrix[index][i] != -1) {
+                temp += matrix[index][i];
             }
         }
         return temp;
