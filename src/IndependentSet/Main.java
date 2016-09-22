@@ -171,9 +171,18 @@ public class Main {
 				}
 			}
 		}
+		
+		Node mostNNode = null;
+		int mostN = 0;
+		for (Node n : remaining){
+			if (n.neighbours.size() > mostN){
+				mostNNode = n;
+				mostN = n.neighbours.size();
+			}
+		}
 
 		// try removing the node
-		Node chosen = remaining.iterator().next();
+		Node chosen = mostNNode;
 		remaining.remove(chosen);
 		for (Node n : chosen.neighbours) {
 			n.neighbours.remove(chosen);
