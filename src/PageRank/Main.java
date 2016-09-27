@@ -6,7 +6,6 @@ import java.util.List;
 public class Main {
 
 	static public List<Node> nodes;
-	public double[] scores;
 	public static int jumps;
 	public static double damping;
 	
@@ -22,6 +21,7 @@ public class Main {
 			currentNode = jumpNext(currentNode);
 		}
 		
+		
 		for(int i = 0; i < nodes.size(); i++) {
 			System.out.println("Node " + i + ": " + nodes.get(i).score + " hits (" + nodes.get(i).score * 100 / jumps + "%)");
 		}
@@ -29,7 +29,7 @@ public class Main {
 	}
 	
 	private static List<Node> setup() {
-		return Parser.parse("src/PageRank/Data/three.txt");
+		return Parser.parse("src/PageRank/Data/medium.txt");
 	}
 
 	public static Node jumpNext(Node n) {
