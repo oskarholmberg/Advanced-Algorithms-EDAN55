@@ -25,14 +25,14 @@ public class Main {
 		nodes.sort((n1, n2) -> Integer.compare(n1.score, n2.score));
 		Collections.reverse(nodes);
 		
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < Integer.min(5, nodes.size()); i++) {
 			System.out.println("Node " + nodes.get(i).id + ": " + nodes.get(i).score + " hits (" + nodes.get(i).score * 100 / jumps + "%)");
 		}
 		
 	}
 	
 	private static List<Node> setup() {
-		return Parser.parse("src/PageRank/Data/medium.txt");
+		return Parser.parse("src/PageRank/Data/three.txt");
 	}
 
 	public static Node jumpNext(Node n) {
