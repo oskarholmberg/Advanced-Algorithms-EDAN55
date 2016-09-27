@@ -8,12 +8,12 @@ public class Main {
 	static public List<Node> nodes;
 	public double[] scores;
 	public static int jumps;
-	public static double randomJump;
+	public static double damping;
 	
 	public static void main(String[] args) {	
 		
-		randomJump = 0.85;
-		jumps = 200;
+		damping = 0.85;
+		jumps = 100000;
 		nodes = setup();
 		
 		Node currentNode = nodes.get(0);
@@ -29,12 +29,12 @@ public class Main {
 	}
 	
 	private static List<Node> setup() {
-		return Parser.parse("src/PageRank/Data/tiny.txt");
+		return Parser.parse("src/PageRank/Data/three.txt");
 	}
 
 	public static Node jumpNext(Node n) {
 		Node nextNode;
-		if (n.edges.size() > 0 && Math.random() >= randomJump) {
+		if (n.edges.size() > 0 && Math.random() <= damping) {
 				nextNode = n.edges.get((int) Math.floor(Math.random() * n.edges.size()));
 			} else {
 				nextNode = nodes.get((int) Math.floor(Math.random() * nodes.size()));
