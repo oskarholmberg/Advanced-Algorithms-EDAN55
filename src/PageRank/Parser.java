@@ -9,6 +9,10 @@ import java.util.Collection;
 import java.util.List;
 
 public class Parser {
+	
+	public static void main(String [] args){
+		Parser.parse("src/PageRank/Data/medium.txt");
+	}
 
 	public static List<Node> parse(String path) {
 		List<Node> nodes = new ArrayList<Node>();
@@ -44,18 +48,10 @@ public class Parser {
 					edgeData = edgesData[i].trim().split(" ");
 					edges.add(new Edge(nodes.get(Integer.parseInt(edgeData[1]))));
 				}
-				String[] data;
-				while (line != null) {
-					data = line.split(" ");
-					for (int i = 0; i < data.length; i += 2) {
-
-					}
-					nodes.get(currNode).edges = edges;
-					line = br.readLine();
-					currNode++;
-				}
-				br.close();
+				line = br.readLine();
 			}
+			br.close();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
