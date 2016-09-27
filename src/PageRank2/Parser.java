@@ -21,7 +21,7 @@ public class Parser {
             int size = Integer.valueOf(line);
             int[][] transMatrix = new int[size][size];
 
-            int currNode = 0;
+
             while (line!=null && !line.isEmpty()){
                 boolean readingNode = true;
                 String[] lineData = line.trim().split(" ");
@@ -32,10 +32,9 @@ public class Parser {
                         if (readingNode){
                             baseNode = Integer.parseInt(lineData[i]);
                             readingNode = false;
-                        }
-                        else {
+                        } else {
                             edgeNode = Integer.parseInt(lineData[i]);
-                            nodes.get(baseNode).edges.add(nodes.get(edgeNode));
+                            transMatrix[baseNode][edgeNode] ++;
                             readingNode = true;
                         }
                     } catch (Exception e) {
