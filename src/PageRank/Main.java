@@ -1,10 +1,11 @@
 package PageRank;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class Main {
 
-	static public Node[] nodes;
+	static public List<Node> nodes;
 	public int[] scores;
 	public static int jumps;
 	public static double randomJump;
@@ -15,20 +16,19 @@ public class Main {
 		jumps = 100;
 		nodes = setup();
 		
-		Node currentNode = nodes[0];
+		Node currentNode = nodes.get(0);
 		
 		for (int i = 0; i < jumps; i++) {
 			currentNode = jumpNext(currentNode);
 		}
 		
-		for(int i = 0; i < nodes.length; i++) {
-			System.out.println("Node " + i + ": " + nodes[i].score);
+		for(int i = 0; i < nodes.size(); i++) {
+			System.out.println("Node " + i + ": " + nodes.get(i).score);
 		}
 		
 	}
 	
-	private static Node[] setup() {
-		// TODO Auto-generated method stub
+	private static List<Node> setup() {
 		return null;
 	}
 
@@ -37,7 +37,7 @@ public class Main {
 		if (n.edges.size() > 0 && Math.random() >= randomJump) {
 				nextNode = n.edges.get((int) Math.floor(Math.random() * n.edges.size())).node;
 			} else {
-				nextNode = nodes[(int) Math.floor(Math.random() * nodes.length)];
+				nextNode = nodes.get((int) Math.floor(Math.random() * nodes.size()));
 			}
 			nextNode.increment();
 			return nextNode;
