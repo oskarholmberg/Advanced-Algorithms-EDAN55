@@ -1,5 +1,7 @@
 package PageRank;
 
-public class Node {
+import java.util.Collection;
 
+public class Node {
+	public Collection<Edge> edges;
 }
