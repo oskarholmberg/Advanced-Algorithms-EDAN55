@@ -14,9 +14,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		for (int i = 30; i < 110; i += 10) {
-			long times[] = new long[10];
-			for (int j = 0; j < 10; j++) {
+		for (int i = 30; i < 140; i += 10) {
+			long times[] = new long[1];
+			for (int j = 0; j < times.length; j++) {
 				String alg = "r2";
 
 				long time = System.currentTimeMillis();
@@ -182,7 +182,8 @@ public class Main {
 		}
 
 		// try removing the node
-		Node chosen = mostNNode;
+//		Node chosen = mostNNode;
+		Node chosen = remaining.iterator().next();
 		remaining.remove(chosen);
 		for (Node n : chosen.neighbours) {
 			n.neighbours.remove(chosen);
