@@ -15,6 +15,22 @@ public class Parser {
 
         try{
             br = new BufferedReader(new FileReader(fileName));
+
+            String line = br.readLine();
+
+            int size = Integer.valueOf(line);
+            int[][] transMatrix = new int[size][size];
+
+            for (int i = 0; i < size; i++){
+                String[] split = br.readLine().split("  ");
+                for (int j = 0; j < split.length; j ++){
+                    transMatrix[i][Integer.valueOf(split[j].split(" ")[1])] ++;
+                }
+
+            }
+
+            return transMatrix;
+
         } catch (IOException e){
 
         }
