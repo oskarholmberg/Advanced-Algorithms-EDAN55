@@ -32,15 +32,13 @@ public class Parser {
 			}
 
 			line = br.readLine();
-			String[] edgesData;
-			String[] edgeData;
-			int currNode = 0;
 			while (line != null && !line.isEmpty()) {
 				boolean readingNode = true;
+				int baseNode = 0;
+				int edgeNode;
 				String[] lineData = line.trim().split(" ");
 				for (int i = 0; i < lineData.length; i++) {
-					int baseNode = 0;
-					int edgeNode;
+
 					try {
 						if (readingNode){
 							baseNode = Integer.parseInt(lineData[i]);
@@ -49,13 +47,14 @@ public class Parser {
 						else {
 							edgeNode = Integer.parseInt(lineData[i]);
 							nodes.get(baseNode).edges.add(nodes.get(edgeNode));
+							//System.out.println("adding: " + baseNode + " " + edgeNode);
 							readingNode = true;
 						}
 					} catch (Exception e) {
 						continue;
 					}
 				}
-				System.out.println(line);
+//				System.out.println(line);
 				line = br.readLine();
 
 			}
