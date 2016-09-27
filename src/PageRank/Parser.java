@@ -24,7 +24,7 @@ public class Parser {
 			System.out.println(size);
 
 			for (int i = 0; i < size; i++) {
-				nodes.add(new Node());
+				nodes.add(new Node(i));
 			}
 
 			line = br.readLine();
