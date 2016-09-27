@@ -4,23 +4,24 @@ import java.util.List;
 import java.util.Random;
 
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.MatrixFunctions;
 
 public class LinearAlgebra {
-	public static final int runs = 5;
+	public static final int runs = 100;
 	
     public static int[][] adjecency;
     public int[][] hyperlink;
     public static void main(String[] args){
     	
-    	String path  = "src/PageRank2/Data/wikipedia.txt";
+    	String path  = "src/PageRank/Data/medium.txt";
     	SimpleMatrix s = new SimpleMatrix(LinearAlgebra.getMatrix(path));
     	SimpleMatrix original = new SimpleMatrix(LinearAlgebra.getMatrix(path));
     	System.out.println("whole matrix");
-	    //print(s); 
+	    print(s); 
 
 	    SimpleMatrix startVector = new SimpleMatrix(1, s.numCols());
 	    int chosen = 2;
+	    
+	    calcToPower(s, runs);
 	    for (int i = 0; i < startVector.numCols(); i++){
 	    	
 	    	startVector.set(0, i, (i == chosen) ? 1 : 0);
@@ -49,7 +50,12 @@ public class LinearAlgebra {
         
     }
     
-    private static boolean testChange(SimpleMatrix prev, SimpleMatrix s, double d) {
+    private static void calcToPower(SimpleMatrix s, int runs2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static boolean testChange(SimpleMatrix prev, SimpleMatrix s, double d) {
         for (int i = 0; i < prev.numRows(); i++){
             for (int j = 0; j < prev.numCols(); j++){
                 if (Math.abs(prev.get(i, j) - s.get(i, j)) > d)
@@ -80,14 +86,18 @@ public class LinearAlgebra {
 				times[k] = 0;
 			}
 			if (currNode.edges.size() == 0){
-				times[i] = 1;
+				for (int j = 0; j < nodes.size(); j++){
+					times[j] =  1f / nodes.size();
+				}
+//				for (Node n : currNode.edges){
+//					times[n.id] += (1d / currNode.edges.size());
+//				}
 			}
 			else{
 				for (Node n : currNode.edges){
 					times[n.id] += (1d / currNode.edges.size());
 				}
 			}
-
 			
 			for (int j = 0; j < times.length; j++){
 				outMatrix[i][j] = times[j];
