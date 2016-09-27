@@ -13,7 +13,6 @@ public class Main {
 	static int calls;
 
 	public static void main(String[] args) {
-
 		for (int i = 30; i < 140; i += 10) {
 			long times[] = new long[1];
 			for (int j = 0; j < times.length; j++) {
