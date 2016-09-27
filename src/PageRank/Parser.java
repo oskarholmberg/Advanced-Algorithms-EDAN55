@@ -55,6 +55,8 @@ public class Parser {
 						continue;
 					}
 				}
+				System.out.println(line);
+				line = br.readLine();
 
 			}
 			// line = line.trim();
