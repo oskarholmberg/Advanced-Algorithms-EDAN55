@@ -1,43 +1,83 @@
 package PageRank;
 
 import java.util.List;
+import java.util.Random;
 
-import org.jblas.FloatMatrix;
+import org.ejml.simple.SimpleMatrix;
+import org.jblas.MatrixFunctions;
 
 public class LinearAlgebra {
-    public int[][] adjecency;
+	public static final int runs = 500;
+	
+    public static int[][] adjecency;
     public int[][] hyperlink;
     public static void main(String[] args){
+    	
+    	String path  = "src/PageRank2/Data/medium.txt";
+    	SimpleMatrix s = new SimpleMatrix(LinearAlgebra.getMatrix(path));
+    	SimpleMatrix copy = new SimpleMatrix(LinearAlgebra.getMatrix(path));
+    	System.out.println("whole matrix");
+	    print(s); 
 
-        //FloatMatrix floatMatrix = Parser.parse("src/PageRank2/Data/three.txt");
-    	FloatMatrix floatMatrix = LinearAlgebra.getMatrix("src/PageRank2/Data/three.txt");
-        for (int i = 0; i < floatMatrix.rows; i++){
-            for (int j = 0; j < floatMatrix.columns; j++){
-                System.out.print(floatMatrix.get(i, j) + " ");
+	    SimpleMatrix startVector = new SimpleMatrix(1, s.numCols());
+	    int chosen = 2;
+	    for (int i = 0; i < startVector.numCols(); i++){
+	    	
+	    	startVector.set(0, i, (i == chosen) ? 1 : 0);
+	    }
+
+	    System.out.println();
+	    System.out.println("Startvector");
+	    print(startVector);
+	    
+	    for (int i = 0; i < runs; i++){
+		    s = s.mult(copy);
+	    }
+	    print(s);
+	    s = startVector.mult(s);
+
+       // print(doubleMatrix);
+
+        //doubleMatrix =  Geometry.normalizeRows(doubleMatrix);
+        System.out.println();
+        System.out.println("final");
+
+        print(s);
+        
+    }
+    
+    public static void print(SimpleMatrix matrix){
+        for (int i = 0; i < matrix.numRows(); i++){
+            for (int j = 0; j < matrix.numCols(); j++){
+                System.out.print(matrix.get(i, j) + " ");
             }
             System.out.println();
         }
-
-        
     }
 
 	
-	public static FloatMatrix getMatrix(String path){
+	public static double[][] getMatrix(String path){
 		List<Node> nodes = Parser.parse(path);
 		
-		FloatMatrix outMatrix = new FloatMatrix(nodes.size(), nodes.size());
+		double[][] outMatrix = new double[nodes.size()][nodes.size()];
 		for (int i = 0; i < nodes.size(); i++){
 			Node currNode = nodes.get(i);
 			float times[]  = new float[nodes.size()];
 			for (int k = 0; k < times.length; k++){
 				times[k] = 0;
 			}
-			for (Node n : currNode.edges){
-				times[n.id] += (1f / currNode.edges.size());
+			if (currNode.edges.size() == 0){
+				times[i] = 1;
 			}
+			else{
+				for (Node n : currNode.edges){
+					times[n.id] += (1d / currNode.edges.size());
+				}
+			}
+
 			
 			for (int j = 0; j < times.length; j++){
-				outMatrix.put(i, j, times[j]);
+				outMatrix[i][j] = times[j];
 			}
 //			for (int j = 0; j < nodes.size(); j++){
 
