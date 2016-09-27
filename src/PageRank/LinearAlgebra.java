@@ -7,17 +7,17 @@ import org.ejml.simple.SimpleMatrix;
 import org.jblas.MatrixFunctions;
 
 public class LinearAlgebra {
-	public static final int runs = 500;
+	public static final int runs = 5;
 	
     public static int[][] adjecency;
     public int[][] hyperlink;
     public static void main(String[] args){
     	
-    	String path  = "src/PageRank2/Data/medium.txt";
+    	String path  = "src/PageRank2/Data/wikipedia.txt";
     	SimpleMatrix s = new SimpleMatrix(LinearAlgebra.getMatrix(path));
-    	SimpleMatrix copy = new SimpleMatrix(LinearAlgebra.getMatrix(path));
+    	SimpleMatrix original = new SimpleMatrix(LinearAlgebra.getMatrix(path));
     	System.out.println("whole matrix");
-	    print(s); 
+	    //print(s); 
 
 	    SimpleMatrix startVector = new SimpleMatrix(1, s.numCols());
 	    int chosen = 2;
@@ -29,11 +29,14 @@ public class LinearAlgebra {
 	    System.out.println();
 	    System.out.println("Startvector");
 	    print(startVector);
+	    SimpleMatrix prev;
+	    int times = 0;
+	    do{
+	    	prev = s;
+		    s = s.mult(original);
+		    times++;
+	    } while (testChange(prev, s, 0.01));
 	    
-	    for (int i = 0; i < runs; i++){
-		    s = s.mult(copy);
-	    }
-	    print(s);
 	    s = startVector.mult(s);
 
        // print(doubleMatrix);
@@ -41,12 +44,22 @@ public class LinearAlgebra {
         //doubleMatrix =  Geometry.normalizeRows(doubleMatrix);
         System.out.println();
         System.out.println("final");
-
         print(s);
+        System.out.println("times to convergence: " + times);
         
     }
     
-    public static void print(SimpleMatrix matrix){
+    private static boolean testChange(SimpleMatrix prev, SimpleMatrix s, double d) {
+        for (int i = 0; i < prev.numRows(); i++){
+            for (int j = 0; j < prev.numCols(); j++){
+                if (Math.abs(prev.get(i, j) - s.get(i, j)) > d)
+                		return true;
+            }
+        }
+        return false;
+	}
+
+	public static void print(SimpleMatrix matrix){
         for (int i = 0; i < matrix.numRows(); i++){
             for (int j = 0; j < matrix.numCols(); j++){
                 System.out.print(matrix.get(i, j) + " ");
