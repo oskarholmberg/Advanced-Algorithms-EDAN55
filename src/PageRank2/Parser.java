@@ -1,15 +1,16 @@
 package PageRank2;
 
+import org.jblas.FloatMatrix;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import org.jblas.*;
 
 /**
  * Created by erik on 27/09/16.
  */
 public class Parser {
-    public static int[][] parse(String fileName){
+    public static FloatMatrix parse(String fileName){
 
         BufferedReader br;
 
@@ -20,7 +21,8 @@ public class Parser {
 
             int size = Integer.valueOf(line.trim());
             System.out.println(size);
-            int[][] transMatrix = new int[size][size];
+
+            FloatMatrix floatMatrix = FloatMatrix.zeros(size, size);
 
 
             line = br.readLine();
@@ -38,7 +40,7 @@ public class Parser {
                         }
                         else {
                             edgeNode = Integer.parseInt(lineData[i]);
-                            transMatrix[baseNode][edgeNode] ++;
+                            floatMatrix.put(baseNode, edgeNode, floatMatrix.get(baseNode, edgeNode) + 1f);
                             readingNode = true;
                         }
                     } catch (Exception e) {
@@ -50,7 +52,7 @@ public class Parser {
 
             }
 
-            return transMatrix;
+            return floatMatrix;
 
         } catch (IOException e){
             System.out.println("couldn't find file");
