@@ -6,6 +6,13 @@ package PageRank2;
 public class Main {
     public static void main(String[] args){
 
-        int[][] transMatrix = Parser.parse("Data/tiny");
+        int[][] transMatrix = Parser.parse("src/PageRank2/Data/three.txt");
+
+        for (int i = 0; i < transMatrix[0].length; i++){
+            for (int j = 0; j < transMatrix[0].length; j++){
+                System.out.print(transMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }

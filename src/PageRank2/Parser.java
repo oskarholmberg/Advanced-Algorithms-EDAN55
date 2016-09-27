@@ -18,21 +18,25 @@ public class Parser {
 
             String line = br.readLine();
 
-            int size = Integer.valueOf(line);
+            int size = Integer.valueOf(line.trim());
+            System.out.println(size);
             int[][] transMatrix = new int[size][size];
 
 
-            while (line!=null && !line.isEmpty()){
+            line = br.readLine();
+            while (line != null && !line.isEmpty()) {
                 boolean readingNode = true;
+                int baseNode = 0;
+                int edgeNode;
                 String[] lineData = line.trim().split(" ");
                 for (int i = 0; i < lineData.length; i++) {
-                    int baseNode = 0;
-                    int edgeNode;
+
                     try {
                         if (readingNode){
                             baseNode = Integer.parseInt(lineData[i]);
                             readingNode = false;
-                        } else {
+                        }
+                        else {
                             edgeNode = Integer.parseInt(lineData[i]);
                             transMatrix[baseNode][edgeNode] ++;
                             readingNode = true;
@@ -41,14 +45,15 @@ public class Parser {
                         continue;
                     }
                 }
-                System.out.println(line);
+				System.out.println(line);
                 line = br.readLine();
+
             }
 
             return transMatrix;
 
         } catch (IOException e){
-
+            System.out.println("couldn't find file");
         }
         return null;
     }
