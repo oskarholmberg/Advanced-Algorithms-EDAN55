@@ -3,6 +3,7 @@ package PageRank2;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import org.jblas.*;
 
 /**
  * Created by erik on 27/09/16.
