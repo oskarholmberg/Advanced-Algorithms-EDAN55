@@ -1,5 +1,8 @@
 package PageRank2;
 
+import org.jblas.DoubleMatrix;
+import org.jblas.FloatMatrix;
+
 /**
  * Created by erik on 27/09/16.
  */
@@ -16,8 +19,6 @@ public class Main {
             }
             System.out.println();
         }
-        
-
 
 
     }
