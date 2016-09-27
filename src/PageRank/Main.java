@@ -19,6 +19,9 @@ public class Main {
 			currentNode = jumpNext(currentNode);
 		}
 		
+		for(int i = 0; i < nodes.length; i++) {
+			System.out.println("Node " + i + ": " + nodes[i].score);
+		}
 		
 	}
 	
