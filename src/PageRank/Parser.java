@@ -36,11 +36,11 @@ public class Parser {
 			String[] edgeData;
 			int currNode = 0;
 			while (line != null && !line.isEmpty()) {
+				boolean readingNode = true;
 				String[] lineData = line.trim().split(" ");
 				for (int i = 0; i < lineData.length; i++) {
 					int baseNode = 0;
 					int edgeNode;
-					boolean readingNode = true;
 					try {
 						if (readingNode){
 							baseNode = Integer.parseInt(lineData[i]);
