@@ -6,14 +6,14 @@ import java.util.List;
 public class Main {
 
 	static public List<Node> nodes;
-	public int[] scores;
+	public double[] scores;
 	public static int jumps;
 	public static double randomJump;
 	
 	public static void main(String[] args) {	
 		
 		randomJump = 0.85;
-		jumps = 100;
+		jumps = 200;
 		nodes = setup();
 		
 		Node currentNode = nodes.get(0);
@@ -23,7 +23,7 @@ public class Main {
 		}
 		
 		for(int i = 0; i < nodes.size(); i++) {
-			System.out.println("Node " + i + ": " + nodes.get(i).score);
+			System.out.println("Node " + i + ": " + nodes.get(i).score + " hits (" + nodes.get(i).score * 100 / jumps + "%)");
 		}
 		
 	}
