@@ -87,7 +87,7 @@ public class LinearAlgebra {
 			}
 			double toUseDampening = dampening;
 			if (currNode.edges.size() == 0) {
-				dampening = 1;
+				toUseDampening = 1;
 			}
 
 			for (Node n : currNode.edges) {
@@ -95,7 +95,7 @@ public class LinearAlgebra {
 			}
 
 			for (int j = 0; j < nodes.size(); j++) {
-				times[j] += dampening / nodes.size();
+				times[j] += toUseDampening / nodes.size();
 			}
 
 			for (int j = 0; j < times.length; j++) {
