@@ -13,8 +13,8 @@ public class LinearAlgebra {
     public static void main(String[] args){
     	
     	String path  = "src/PageRank/Data/medium.txt";
-    	SimpleMatrix s = new SimpleMatrix(LinearAlgebra.getMatrix(path));
-    	SimpleMatrix original = new SimpleMatrix(LinearAlgebra.getMatrix(path));
+    	SimpleMatrix s = new SimpleMatrix(LinearAlgebra.getMatrix(path, 0.85));
+    	SimpleMatrix original = new SimpleMatrix(LinearAlgebra.getMatrix(path, 0.85));
     	System.out.println("whole matrix");
 	    print(s); 
 
@@ -75,28 +75,29 @@ public class LinearAlgebra {
     }
 
 	
-	public static double[][] getMatrix(String path){
+	public static double[][] getMatrix(String path, double dampening){
 		List<Node> nodes = Parser.parse(path);
+		double antiDampening = 1 - dampening;
 		
 		double[][] outMatrix = new double[nodes.size()][nodes.size()];
 		for (int i = 0; i < nodes.size(); i++){
 			Node currNode = nodes.get(i);
-			float times[]  = new float[nodes.size()];
+			double times[]  = new double[nodes.size()];
 			for (int k = 0; k < times.length; k++){
 				times[k] = 0;
 			}
 			if (currNode.edges.size() == 0){
-				for (int j = 0; j < nodes.size(); j++){
-					times[j] =  1f / nodes.size();
-				}
-//				for (Node n : currNode.edges){
-//					times[n.id] += (1d / currNode.edges.size());
-//				}
+				dampening = 1;
+				
 			}
 			else{
 				for (Node n : currNode.edges){
-					times[n.id] += (1d / currNode.edges.size());
+					times[n.id] += (1d / currNode.edges.size()) * antiDampening;
 				}
+			}
+			
+			for (int j = 0; j < nodes.size(); j++){
+				times[j] +=  dampening / nodes.size();
 			}
 			
 			for (int j = 0; j < times.length; j++){
