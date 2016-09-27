@@ -10,10 +10,6 @@ import java.util.List;
 
 public class Parser {
 
-	public static void main(String[] args) {
-		Parser.parse("src/PageRank/Data/tiny.txt");
-	}
-
 	public static List<Node> parse(String path) {
 		List<Node> nodes = new ArrayList<Node>();
 
