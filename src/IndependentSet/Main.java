@@ -14,9 +14,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		for (int i = 30; i < 110; i += 10) {
+		for (int i = 30; i < 121; i += 10) {
 			long times[] = new long[10];
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 1; j++) {
 				String alg = "r2";
 
 				long time = System.currentTimeMillis();
