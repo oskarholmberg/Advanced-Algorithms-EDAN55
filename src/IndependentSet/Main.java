@@ -20,7 +20,7 @@ public class Main {
 
 				long time = System.currentTimeMillis();
 				calls = 0;
-				getIndependentSet(setup("src/IndependentSet/g" + i + ".in"), alg);
+				getIndependentSet(setup("src/IndependentSet/data/g" + i + ".in"), alg);
 				// System.out.println("\tbest: " +
 				// getIndependentSet(setup("src/IndependentSet/g" + i + ".in"),
 				// alg));
