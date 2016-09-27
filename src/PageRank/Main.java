@@ -36,7 +36,7 @@ public class Main {
 				nextNode = nodes[(int) Math.floor(Math.random() * nodes.length)];
 				
 			} else {
-				nextNode = n.edges.get((int) Math.floor(Math.random() * n.edges.size())).node;
+				nextNode = n.edges.get((int) Math.floor(Math.random() * n.edges.size()));
 			}
 			nextNode.increment();
 			return nextNode;
