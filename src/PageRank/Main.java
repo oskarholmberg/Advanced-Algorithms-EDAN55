@@ -29,7 +29,7 @@ public class Main {
 	}
 	
 	private static List<Node> setup() {
-		return null;
+		return Parser.parse("src/PageRank/Data/tiny.txt");
 	}
 
 	public static Node jumpNext(Node n) {
