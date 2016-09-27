@@ -11,7 +11,7 @@ import java.util.List;
 public class Parser {
 
 	public static void main(String[] args) {
-		Parser.parse("src/PageRank/Data/medium.txt");
+		Parser.parse("src/PageRank/Data/tiny.txt");
 	}
 
 	public static List<Node> parse(String path) {
@@ -24,7 +24,7 @@ public class Parser {
 			br = new BufferedReader(new FileReader(path));
 
 			String line = br.readLine();
-			int size = Integer.parseInt(line);
+			int size = Integer.parseInt(line.trim());
 			System.out.println(size);
 
 			for (int i = 0; i < size; i++) {
@@ -32,15 +32,13 @@ public class Parser {
 			}
 
 			line = br.readLine();
-			String[] edgesData;
-			String[] edgeData;
-			int currNode = 0;
 			while (line != null && !line.isEmpty()) {
 				boolean readingNode = true;
+				int baseNode = 0;
+				int edgeNode;
 				String[] lineData = line.trim().split(" ");
 				for (int i = 0; i < lineData.length; i++) {
-					int baseNode = 0;
-					int edgeNode;
+
 					try {
 						if (readingNode){
 							baseNode = Integer.parseInt(lineData[i]);
@@ -49,13 +47,14 @@ public class Parser {
 						else {
 							edgeNode = Integer.parseInt(lineData[i]);
 							nodes.get(baseNode).edges.add(nodes.get(edgeNode));
+							//System.out.println("adding: " + baseNode + " " + edgeNode);
 							readingNode = true;
 						}
 					} catch (Exception e) {
 						continue;
 					}
 				}
-				System.out.println(line);
+//				System.out.println(line);
 				line = br.readLine();
 
 			}
