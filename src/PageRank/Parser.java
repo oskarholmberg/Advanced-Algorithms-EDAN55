@@ -11,7 +11,7 @@ import java.util.List;
 public class Parser {
 
 	public static void main(String[] args) {
-		Parser.parse("src/PageRank/Data/medium.txt");
+		Parser.parse("src/PageRank/Data/tiny.txt");
 	}
 
 	public static List<Node> parse(String path) {
@@ -24,7 +24,7 @@ public class Parser {
 			br = new BufferedReader(new FileReader(path));
 
 			String line = br.readLine();
-			int size = Integer.parseInt(line);
+			int size = Integer.parseInt(line.trim());
 			System.out.println(size);
 
 			for (int i = 0; i < size; i++) {
