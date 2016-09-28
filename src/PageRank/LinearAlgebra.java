@@ -15,20 +15,25 @@ public class LinearAlgebra {
 		
 		
 
-		String path = "src/PageRank/Data/medium.txt";
+		String path = "src/PageRank/Data/three.txt";
 		
 		List<Node> nodes = Parser.parse(path);
 		double[] startVector = new double[nodes.size()];
+		double[] prevVector;
 		startVector[0] = 1;
 		
-		
-		for (int i = 0; i < 1; i++){
+		int count = 0;
+		do{
+			prevVector = startVector;
 			startVector = modifyVector(startVector, nodes, 0.85);
-		}
+			count++;
+		} while (testChange(prevVector, startVector, 0.01));
 		
 		for (int i = 0; i < startVector.length; i++){
 			System.out.print(startVector[i] + " ");
 		}
+		System.out.println();
+		System.out.println("count: " + count);
 		
 		
 		
@@ -80,6 +85,15 @@ public class LinearAlgebra {
 			for (int j = 0; j < prev.numCols(); j++) {
 				if (Math.abs(prev.get(i, j) - s.get(i, j)) > d)
 					return true;
+			}
+		}
+		return false;
+	}
+	
+	private static boolean testChange(double[] prev, double[] curr, double d) {
+		for (int i = 0; i < prev.length; i++) {
+			if (Math.abs(prev[i] - curr[i]) > d){
+				return true;
 			}
 		}
 		return false;
