@@ -1,5 +1,6 @@
 package PageRank2;
 
+import org.jblas.DoubleMatrix;
 import org.jblas.FloatMatrix;
 
 import java.io.BufferedReader;
@@ -10,7 +11,7 @@ import java.io.IOException;
  * Created by erik on 27/09/16.
  */
 public class Parser {
-    public static FloatMatrix parse(String fileName){
+    public static DoubleMatrix parse(String fileName){
 
         BufferedReader br;
 
@@ -22,7 +23,7 @@ public class Parser {
             int size = Integer.valueOf(line.trim());
             System.out.println(size);
 
-            FloatMatrix floatMatrix = FloatMatrix.zeros(size, size);
+            DoubleMatrix floatMatrix = DoubleMatrix.zeros(size, size);
 
 
             line = br.readLine();
