@@ -6,16 +6,16 @@ import java.util.Random;
 import org.ejml.simple.SimpleMatrix;
 
 public class LinearAlgebra {
-	public static final int runs = 100;
-
-	public static int[][] adjecency;
-	public int[][] hyperlink;
+//	public static final int runs = 100;
+//
+//	public static int[][] adjecency;
+//	public int[][] hyperlink;
 
 	public static void main(String[] args) {
 		
 		
 
-		String path = "src/PageRank/Data/three.txt";
+		String path = "src/PageRank/Data/tiny.txt";
 		
 		List<Node> nodes = Parser.parse(path);
 		double[] startVector = new double[nodes.size()];
@@ -152,14 +152,14 @@ public class LinearAlgebra {
 			double currDampening = dampening;
 
 			if (edges.size() == 0) {
-				currDampening = 1;
+				currDampening = 0;
 			}
 			for (Node n : edges) {
-				outVector[n.id] += currProb * (1 - currDampening) / edges.size();
+				outVector[n.id] += currProb *  currDampening / edges.size();
 			}
 
 			for (Node n : nodes) {
-				outVector[n.id] += (currProb * currDampening) / nodes.size();
+				outVector[n.id] += (currProb * (1 - currDampening)) / nodes.size();
 			}
 
 		}
