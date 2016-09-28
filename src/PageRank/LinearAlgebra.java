@@ -12,42 +12,61 @@ public class LinearAlgebra {
 	public int[][] hyperlink;
 
 	public static void main(String[] args) {
+		
+		
 
 		String path = "src/PageRank/Data/medium.txt";
-		SimpleMatrix s = new SimpleMatrix(LinearAlgebra.getMatrix(path, 0.85));
-		SimpleMatrix original = new SimpleMatrix(LinearAlgebra.getMatrix(path, 0.85));
-		System.out.println("whole matrix");
-		print(s);
-
-		SimpleMatrix startVector = new SimpleMatrix(1, s.numCols());
-		int chosen = 2;
-
-		calcToPower(s, runs);
-		for (int i = 0; i < startVector.numCols(); i++) {
-
-			startVector.set(0, i, (i == chosen) ? 1 : 0);
+		
+		List<Node> nodes = Parser.parse(path);
+		double[] startVector = new double[nodes.size()];
+		startVector[0] = 1;
+		
+		
+		for (int i = 0; i < 1; i++){
+			startVector = modifyVector(startVector, nodes, 0.85);
 		}
-
-		System.out.println();
-		System.out.println("Startvector");
-		print(startVector);
-		SimpleMatrix prev;
-		int times = 0;
-		do {
-			prev = s;
-			s = s.mult(original);
-			times++;
-		} while (testChange(prev, s, 0.01));
-
-		s = startVector.mult(s);
-
-		// print(doubleMatrix);
-
-		// doubleMatrix = Geometry.normalizeRows(doubleMatrix);
-		System.out.println();
-		System.out.println("final");
-		print(s);
-		System.out.println("times to convergence: " + times);
+		
+		for (int i = 0; i < startVector.length; i++){
+			System.out.print(startVector[i] + " ");
+		}
+		
+		
+		
+//		SimpleMatrix s = new SimpleMatrix(LinearAlgebra.getMatrix(path, 0.85));
+//		SimpleMatrix original = new SimpleMatrix(LinearAlgebra.getMatrix(path, 0.85));
+//		System.out.println("whole matrix");
+//		print(s);
+//
+//		SimpleMatrix startVector = new SimpleMatrix(1, s.numCols());
+//		int chosen = 2;
+//
+//		calcToPower(s, runs);
+//		for (int i = 0; i < startVector.numCols(); i++) {
+//
+//			startVector.set(0, i, (i == chosen) ? 1 : 0);
+//		}
+//
+//		System.out.println();
+//		System.out.println("Startvector");
+//
+//		print(startVector);
+//		// SimpleMatrix prev;
+//		// int times = 0;
+//		// do {
+//		// prev = s;
+//		// s = s.mult(original);
+//		// times++;
+//		// } while (testChange(prev, s, 0.01));
+//
+//		s = startVector.mult(s);
+//
+//		// print(doubleMatrix);
+//
+//		// doubleMatrix = Geometry.normalizeRows(doubleMatrix);
+//		System.out.println();
+//		System.out.println("final");
+//		print(s);
+//		System.out.println("times to convergence: " + times);
 
 	}
 
@@ -106,6 +125,31 @@ public class LinearAlgebra {
 			// }
 		}
 		return outMatrix;
+
+	}
+
+	public static double[] modifyVector(double[] currVector, List<Node> nodes, double dampening) {
+		double[] outVector = new double[currVector.length];
+		for (int i = 0; i < nodes.size(); i++) {
+			double currProb = currVector[i];
+			Node currNode = nodes.get(i);
+			List<Node> edges = currNode.edges;
+
+			double currDampening = dampening;
+
+			if (edges.size() == 0) {
+				currDampening = 1;
+			}
+			for (Node n : edges) {
+				outVector[n.id] += currProb * (1 - currDampening) / edges.size();
+			}
+
+			for (Node n : nodes) {
+				outVector[n.id] += (currProb * currDampening) / nodes.size();
+			}
+
+		}
+		return outVector;
 
 	}
 
