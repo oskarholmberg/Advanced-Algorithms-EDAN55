@@ -13,7 +13,7 @@ public class LinearAlgebra {
 
 	public static void main(String[] args) {
 
-		String path = "src/PageRank/Data/medium.txt";
+		String path = "src/PageRank/Data/three.txt";
 		SimpleMatrix s = new SimpleMatrix(LinearAlgebra.getMatrix(path, 0.85));
 		SimpleMatrix original = new SimpleMatrix(LinearAlgebra.getMatrix(path, 0.85));
 		System.out.println("whole matrix");
