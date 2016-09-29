@@ -50,7 +50,7 @@ public class Parser {
 						continue;
 					}
 				}
-//				System.out.println(line);
+				System.out.println(line);
 				line = br.readLine();
 
 			}
