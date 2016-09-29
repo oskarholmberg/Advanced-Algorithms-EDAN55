@@ -6,13 +6,44 @@ import java.util.List;
  * Created by oskar on 2016-09-29.
  */
 public class RandomSurfer {
-    public static void main(String[] args){
 
-        String path = "src/PageRank/Data/three.txt";
+    private static double alpha = 85.0 / 100;
+    private static int nbrJumps = 10000;
+    private static String path = "src/PageRank/Data/three.txt";
 
-        List<Node> nodes = Parser.parse(path);
+    private static List<Node> nodes = Parser.parse(path);
 
-        double alpha = 85.0/100;
+    public static void main(String[] args) {
 
+        double[] oldScores = new double[nodes.size()];
+        double[] newScores = new double[nodes.size()];
+        Node curNode = nodes.get(0);
+
+        for (int i = 0; i < nbrJumps; i++) {
+            curNode = jump(curNode);
+            curNode.increment();
+        }
+
+        List<Node> sortedNodes = new NodeSorter().sort(nodes);
+
+        for (int i = 0; i < sortedNodes.size(); i ++) {
+            Node n = sortedNodes.get(i);
+            System.out.println("Node " + n.id + "\tScore: " + n.score + "\tProbability: " + ((double) n.score / nbrJumps) * 100 + "%");
+        }
+    }
+
+    /**
+     * Jump to a new node.
+     *
+     * @param node , Starting node
+     * @return , End node
+     */
+    public static Node jump(Node node) {
+        if (Math.random() > alpha || node.edges.size() == 0) {
+            //Return a random node.
+            return nodes.get((int) (Math.random() * nodes.size()));
+        } else {
+            return node.edges.get((int) (Math.random() * node.edges.size()));
+        }
     }
 }
