@@ -1,9 +1,6 @@
 package PageRank;
 
 import java.util.List;
-import java.util.Random;
-
-import org.ejml.simple.SimpleMatrix;
 
 public class LinearAlgebra {
 
@@ -40,15 +37,6 @@ public class LinearAlgebra {
 			}
 		}
 		return false;
-	}
-
-	public static void print(SimpleMatrix matrix) {
-		for (int i = 0; i < matrix.numRows(); i++) {
-			for (int j = 0; j < matrix.numCols(); j++) {
-				System.out.print(matrix.get(i, j) + " ");
-			}
-			System.out.println();
-		}
 	}
 
 
