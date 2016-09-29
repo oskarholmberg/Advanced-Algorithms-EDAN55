@@ -8,7 +8,7 @@ import org.ejml.simple.SimpleMatrix;
 public class LinearAlgebra {
 
 	public static void main(String[] args) {
-		String path = "src/PageRank/Data/wikipedia.txt";
+		String path = "src/PageRank/Data/three.txt";
 		
 		List<Node> nodes = Parser.parse(path);
 		double[] startVector = new double[nodes.size()];
