@@ -9,6 +9,7 @@ public class LinearAlgebra {
 
 	public static void main(String[] args) {
 		String path = "src/PageRank/Data/p2p-Gnutella08-mod.txt";
+
 		
 		List<Node> nodes = Parser.parse(path);
 		double[] startVector = new double[nodes.size()];
@@ -64,6 +65,7 @@ public class LinearAlgebra {
 			if (edges.size() == 0) {
 				currDampening = 0;
 			}
+			
 			for (Node n : edges) {
 				outVector[n.id] += currProb *  currDampening / edges.size();
 			}
