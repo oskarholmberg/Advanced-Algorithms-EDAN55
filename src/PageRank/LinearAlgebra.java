@@ -8,8 +8,8 @@ import org.ejml.simple.SimpleMatrix;
 public class LinearAlgebra {
 
 	public static void main(String[] args) {
+		String path = "src/PageRank/Data/p2p-Gnutella08-mod.txt";
 
-		String path = "src/PageRank/Data/wikipedia.txt";
 		
 		List<Node> nodes = Parser.parse(path);
 		double[] startVector = new double[nodes.size()];
@@ -35,10 +35,11 @@ public class LinearAlgebra {
 
 	private static boolean testChange(double[] prev, double[] curr, double d) {
 		for (int i = 0; i < prev.length; i++) {
-			if (Math.abs(prev[i] - curr[i]) > d){
+			if (Math.abs((curr[i] - prev[i])/prev[i]) > d){
 				return true;
 			}
 		}
+
 		return false;
 	}
 

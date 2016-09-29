@@ -32,7 +32,13 @@ public class Parser {
 				boolean readingNode = true;
 				int baseNode = 0;
 				int edgeNode;
-				String[] lineData = line.trim().split(" ");
+				String[] lineData;
+				if (line.contains("\t")){
+					lineData = line.trim().split("\t");
+				} else{
+					lineData =  line.trim().split(" ");
+
+				}
 				for (int i = 0; i < lineData.length; i++) {
 
 					try {
@@ -54,21 +60,6 @@ public class Parser {
 				line = br.readLine();
 
 			}
-			// line = line.trim();
-			// line.replace(" ", " ");
-			// line.replace(" ", " ");
-			// System.out.println(line);
-			// edgesData = line.split(" ");
-			// List<Edge> edges = new ArrayList<Edge>();
-			//
-			// for (int i = 0; i < edgesData.length; i++) {
-			// edgesData[i] = edgesData[i].replace(" ", " ");
-			// edgeData = edgesData[i].trim().split(" ");
-			// edges.add(new Edge(nodes.get(Integer.parseInt(edgeData[1]))));
-			// }
-			// line = br.readLine();
-			// }
-			// br.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
