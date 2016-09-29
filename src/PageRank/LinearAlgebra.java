@@ -8,7 +8,8 @@ import org.ejml.simple.SimpleMatrix;
 public class LinearAlgebra {
 
 	public static void main(String[] args) {
-		String path = "src/PageRank/Data/three.txt";
+
+		String path = "src/PageRank/Data/wikipedia.txt";
 		
 		List<Node> nodes = Parser.parse(path);
 		double[] startVector = new double[nodes.size()];
@@ -63,6 +64,7 @@ public class LinearAlgebra {
 			if (edges.size() == 0) {
 				currDampening = 0;
 			}
+			
 			for (Node n : edges) {
 				outVector[n.id] += currProb *  currDampening / edges.size();
 			}
