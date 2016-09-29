@@ -1,22 +1,18 @@
 package PageRank;
 
-import PageRank.Node;
-import PageRank.Parser;
-
 import java.util.List;
 
 /**
- * Created by erik on 29/09/16.
+ * Created by oskar on 2016-09-29.
  */
-public class LinearAlgebraFirst {
-
+public class RandomSurfer {
     public static void main(String[] args){
 
         String path = "src/PageRank/Data/three.txt";
 
         List<Node> nodes = Parser.parse(path);
 
-        System.out.println(nodes.get(0).id);
+        double alpha = 85.0/100;
 
     }
 }

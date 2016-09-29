@@ -34,7 +34,7 @@ public class Parser {
 				int edgeNode;
 				String[] lineData;
 				if (line.contains("\t")){
-					lineData = line.trim().split("\t");
+					lineData = line.trim().split("\\t");
 				} else{
 					lineData =  line.trim().split(" ");
 

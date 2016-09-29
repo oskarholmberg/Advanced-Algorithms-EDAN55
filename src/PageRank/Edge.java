@@ -5,6 +5,4 @@ public class Edge {
 	public Edge(Node node) {
 		this.node = node;
 	}
-
-	
 }
