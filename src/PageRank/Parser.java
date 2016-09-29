@@ -21,7 +21,7 @@ public class Parser {
 
 			String line = br.readLine();
 			int size = Integer.parseInt(line.trim());
-			System.out.println(size);
+			System.out.println("nodes in graph: " + size);
 
 			for (int i = 0; i < size; i++) {
 				nodes.add(new Node(i));
