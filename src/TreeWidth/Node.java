@@ -6,13 +6,15 @@ import java.util.*;
  * Created by oskar on 2016-10-04.
  */
 public class Node {
-    private Map<Integer, Node> neighbours;
-    private int id;
+    public Map<Integer, Node> neighbours;
+    public int id;
+    public Set<Bag> bags;
     private HashMap<BitSet, Integer> partialSolutions; 
 
     public Node(int id){
         this.id = id;
         neighbours = new HashMap<>();
+        bags = new HashSet<>();
     }
 
     public void addNeighbour(Node n){

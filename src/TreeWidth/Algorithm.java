@@ -62,7 +62,7 @@ public class Algorithm {
 		
 		// try adding to set
 		List<Node> independentSetCP1 = new ArrayList<Node>(independentSet);
-		
+
 		independentSetCP1.add(mostConn);
 		HashSet<Node> remainingCP1 = new HashSet<Node>(remaining);
 		
