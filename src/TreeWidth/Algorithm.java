@@ -14,11 +14,11 @@ public class Algorithm {
 
 	public static void main(String[] args){
 		List<Bag> bags = null;
-		List<Node> nodes = null;
+		Set<Node> nodes = null;
 		
 		// precalculate partial solutions
 		for (Bag bag: bags){
-			bag.calculatesolutions();
+			bag.calculateSolutions(nodes);
 		}
 		
 		// normal ind. set algorithm
@@ -55,14 +55,25 @@ public class Algorithm {
 		// split
 		
 		// try adding to set
+		List<Node> independentSetCP1 = new ArrayList<Node>(independentSet);
+
+		independentSetCP1.add(mostConn);
+		HashSet<Node> remainingCP1 = new HashSet<Node>(remaining);
 		
-//		Node remaining = 0;
+		remainingCP1.remove(mostConn);
+		remainingCP1.removeAll(mostConn.getNeighbours());
+		
+		List<Node> indepRes1 = getIndependentSet(remainingCP1, independentSetCP1);
 		
 		
-		// try removing
 		
+		// try removing	
+		HashSet<Node> remainingCP2 = new HashSet<Node>(remaining);
+		remainingCP2.remove(mostConn);
+		List<Node> indepRes2 = getIndependentSet(remainingCP2, independentSetCP1);
 		
-		return independentSet;
+		return indepRes1.size() > indepRes2.size() ? indepRes1 : indepRes2;
+
 	}
 	
 	public static int getValidNeighbors(List<Node> neighbors, Set<Node> remaining){
