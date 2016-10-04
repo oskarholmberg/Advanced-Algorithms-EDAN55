@@ -18,4 +18,12 @@ public class Bag {
 		}
 		
 	}
+
+	public void addNode(Node n){
+		nodes.add(n);
+	}
+
+	public void addEdgeNode(Node n){
+		edgeNodes.add(n);
+	}
 }
