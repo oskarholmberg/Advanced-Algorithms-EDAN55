@@ -21,9 +21,15 @@ public class Algorithm {
 			bag.calculateSolutions(nodes);
 		}
 		
+		Set<Node> edgeNodes = new HashSet<Node>();
+		for (Bag bag : bags){
+			edgeNodes.addAll(bag.edgeNodes);
+		}
+		
+		List<Node> finalNodes = getIndependentSet(edgeNodes, new ArrayList<Node>());
+				
 		// normal ind. set algorithm
 		
-//		getIndependentSet(nodes, new ArrayList<Node>());		
 		
 	}
 

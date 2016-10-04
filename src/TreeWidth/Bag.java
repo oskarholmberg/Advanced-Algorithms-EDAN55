@@ -14,13 +14,20 @@ public class Bag {
 	
 	
 	public Bag(){
-		
+		partialSolutions = new HashMap<BitSet, List<Node>>();
 	}
 
 	public void calculateSolutions(Set<Node> nodes) {
 		testCombinations(edgeNodes, nodes, new ArrayList<Node>());
-
+	}
+	
+	public List<Node> getValueOf(Set<Node> inputNodes){
+		BitSet currSet = new BitSet(edgeNodes.size());
+		for (int i = 0; i < edgeNodes.size(); i++){
+			currSet.set(i, inputNodes.contains(edgeNodes.get(i)));
+		}
 		
+		return partialSolutions.get(currSet);
 	}
 	
 	public void testCombinations(List<Node> remainingEdgeNodes, Set<Node> remainingNodes, List<Node> independentSet){
