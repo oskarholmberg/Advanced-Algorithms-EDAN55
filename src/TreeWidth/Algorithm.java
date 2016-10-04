@@ -14,7 +14,7 @@ public class Algorithm {
 	
 	public static void main(String[] args) {
 		Parser parser = new Parser();
-		bags = parser.parse("src/TreeWidth/data/BarbellGraph_10_5");
+		bags = parser.parse("src/TreeWidth/data/BalancedTree_3_5");
 
 		System.out.println("Bags: " + bags.size());
 		// precalculate partial solutions
@@ -52,10 +52,12 @@ public class Algorithm {
 			return useAbstractValue ? getValueOf(independentSet) : new ReturnType(independentSet, independentSet.size());
 		}
 		for (Node n : remaining) {
-			if (n.getNeighbours().size() < 2) {
+			if (getValidNeighbors(n.neighbours, remaining) < 2) {
 				independentSet.add(n);
 				Set<Node> remainingCopy = new HashSet<Node>(remaining);
 				remainingCopy.remove(n);
+				remainingCopy.removeAll(n.neighbours);
+				//System.out.println("leaf");
 				return getIndependentSet(remainingCopy, independentSet, useAbstractValue);
 				// independentSet.remove(n);
 

@@ -31,6 +31,11 @@ public class Bag {
 		for (int i = 0; i < edgeNodes.size(); i++) {
 			currSet.set(i, inputNodes.contains(edgeNodes.get(i)));
 		}
+		if (partialSolutions.get(currSet) == null){
+			System.out.println("could not find " + currSet + " in: " + id);
+			return new HashSet<Node>();
+
+		}
 		return partialSolutions.get(currSet);
 	}
 
@@ -41,7 +46,6 @@ public class Bag {
 			ReturnType nodesInIndepSet = Algorithm.getIndependentSet(remainingNodes, independentSet, false);
 			BitSet currSet = new BitSet(edgeNodes.size());
 			for (int i = 0; i < edgeNodes.size(); i++) {
-//				System.out.println("calc");
 				currSet.set(i, nodesInIndepSet.independentSet.contains(edgeNodes.get(i)));
 			}
 			
