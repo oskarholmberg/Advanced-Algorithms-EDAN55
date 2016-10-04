@@ -1,5 +1,6 @@
 package PageRank;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -24,10 +25,10 @@ public class RandomSurfer {
             curNode.increment();
         }
 
-        List<Node> sortedNodes = new NodeSorter().sort(nodes);
+        nodes.sort((n2, n1) -> Integer.compare(n1.score, n2.score));
 
-        for (int i = 0; i < sortedNodes.size(); i ++) {
-            Node n = sortedNodes.get(i);
+        for (int i = 0; i < Math.min(5, nodes.size()); i ++) {
+            Node n = nodes.get(i);
             System.out.println("Node " + n.id + "\tScore: " + n.score + "\tProbability: " + ((double) n.score / nbrJumps) * 100 + "%");
         }
     }

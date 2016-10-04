@@ -15,13 +15,12 @@ public class Parser {
 
 		BufferedReader br;
 		try {
-			System.out.println(path);
 
 			br = new BufferedReader(new FileReader(path));
 
 			String line = br.readLine();
 			int size = Integer.parseInt(line.trim());
-			System.out.println("nodes in graph: " + size);
+			System.out.println(size + " nodes found in graph.");
 
 			for (int i = 0; i < size; i++) {
 				nodes.add(new Node(i));
