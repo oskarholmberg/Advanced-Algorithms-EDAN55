@@ -14,8 +14,42 @@ public class Parser {
     public Parser(){
 
     }
+    public List<Bag> parse(String path){
+        Map<Integer, Node> map = parseGraph(path+".gr");
+        BufferedReader br = null;
+        List<Bag> bags = new ArrayList<>();
+        try {
+            br = new BufferedReader(new FileReader(path+".td"));
+            String line = br.readLine();
+            while(line != null){
+                String[] split = line.split(" ");
+                switch (split[0]){
+                    case "c":
+                        break;
+                    case "s":
+                        break;
+                    case "b":
+                        Bag bag = new Bag();
+                        for(int i = 2; i < split.length; i++){
+                            bag.addNode(map.get(Integer.valueOf(split[i])));
+                        }
+                        bags.add(bag);
+                        break;
+                    default:
 
-    public List<Node> parseGraph(String path){
+                }
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bags;
+    }
+
+    private Map<Integer, Node> parseGraph(String path){
         Map<Integer, Node> nodes = new HashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -50,18 +84,6 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Iterator itr = nodes.keySet().iterator();
-        List<Node> list = new ArrayList<>();
-        while(itr.hasNext()){
-            list.add(nodes.get(itr.next()));
-            itr.remove();
-        }
-        System.out.println(list.size());
-        return list;
-    }
-
-    public void parseTree(){
-    
+        return nodes;
     }
 }
