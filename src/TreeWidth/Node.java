@@ -6,8 +6,8 @@ import java.util.*;
  * Created by oskar on 2016-10-04.
  */
 public class Node {
-    private Map<Integer, Node> neighbours;
-    private int id;
+    public Map<Integer, Node> neighbours;
+    public int id;
     private HashMap<BitSet, Integer> partialSolutions; 
 
     public Node(int id){

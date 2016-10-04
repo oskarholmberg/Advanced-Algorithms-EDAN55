@@ -16,7 +16,7 @@ public class Parser {
     }
     public List<Bag> parse(String path){
         Map<Integer, Node> map = parseGraph(path+".gr");
-        BufferedReader br = null;
+        BufferedReader br;
         List<Bag> bags = new ArrayList<>();
         try {
             br = new BufferedReader(new FileReader(path+".td"));
@@ -36,7 +36,7 @@ public class Parser {
                         bags.add(bag);
                         break;
                     default:
-
+                        break;
                 }
                 line = br.readLine();
             }
@@ -45,7 +45,7 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println(bags.size() + " bags created.");
         return bags;
     }
 
@@ -84,6 +84,7 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(nodes.size() + " nodes created.");
         return nodes;
     }
 }
