@@ -1,11 +1,9 @@
 package TreeWidth;
 
-import java.util.ArrayList;
-import java.util.BitSet;
+
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Algorithm {
@@ -29,36 +27,91 @@ public class Algorithm {
 		}
 		System.out.println("total edge nodes: " + edgeNodes.size());
 
-		ReturnType finalNodes;
-		if (bags.size() == 1){
-			Set<Node> nodes = bags.iterator().next().nodes;
-			finalNodes = getIndependentSet(nodes, new HashSet<Node>(), true);
-		} else{
-			finalNodes = getIndependentSet(edgeNodes, new HashSet<Node>(), true);
+		Iterator<Node> it = edgeNodes.iterator();
+		Node selected = it.next();
+		System.out.println("selected root: " + selected.id);
+		
 
+		
+		HashSet<Node> indepSetInc = new HashSet<Node>();
+		getIndependentSet(selected, edgeNodes, true, indepSetInc);
+		
+		
+		
+		// include or exclude
+		Set<Node> allNodesInc = new HashSet<Node>();
+		for (Bag b : bags){
+			allNodesInc.addAll(b.getValueOf(indepSetInc));
 		}
-		System.out.println("value: " + finalNodes.value);
-		System.out.print("selected:");
-		for (Node n : finalNodes.independentSet){
-			System.out.print(" " +n.id);
+		int includeVal = allNodesInc.size();
+		
+		HashSet<Node> indepSetExc = new HashSet<Node>();
+		getIndependentSet(selected, edgeNodes, true, indepSetExc);
+		
+		Set<Node> allNodesExc = new HashSet<Node>();
+
+		for (Bag b : bags){
+			allNodesExc.addAll(b.getValueOf(indepSetExc));
 		}
-		// normal ind. set algorithm
+		int excludeVal = allNodesExc.size();
+		
+		Set<Node> indepSet;
+		if (includeVal > excludeVal){
+			System.out.println("decided to include node");
+			indepSet = allNodesInc;
+		} else{
+			System.out.println("decided to exlude node");
+			indepSet = allNodesExc;
+		}
+
+		
+
+		System.out.println("total: " + indepSet.size());
+		System.out.print("Selected:");
+		for (Node n : indepSet){
+			System.out.print(" " + n.id);
+		}
+
+	}
+	
+	public static void getIndependentSet(Node current, Set<Node> remaining, boolean use, Collection<Node> indepSet){
+		Set<Node> validNeighbors = getValidNeighborsC(remaining, current.neighbours);
+//		Set<Node> left
+		HashSet<Node> remainingCP = new HashSet<Node>(remaining);
+		remainingCP.remove(current);
+		if (use){
+//			System.out.println("picked id: " + current.id);
+//			for (Node n : validNeighbors){
+//				System.out.println("has neighbor: " + n.id);
+//			}
+			indepSet.add(current);
+			remainingCP.removeAll(validNeighbors);
+		} 
+		if (remainingCP.size() == 0){
+			return;
+		}
+			
+		for (Node n : validNeighbors){
+			getIndependentSet(n, remainingCP, !use, indepSet);
+		}
+		
 
 	}
 
-	public static ReturnType getIndependentSet(Set<Node> remaining, Set<Node> independentSet,
-			boolean useAbstractValue) {
+	
+	// the normal expensive method
+	public static Collection<Node> getIndependentSet(Set<Node> remaining, Set<Node> independentSet) {
 		if (remaining.size() == 0) {
-			return useAbstractValue ? getValueOf(independentSet) : new ReturnType(independentSet, independentSet.size());
+			return independentSet;
 		}
 		for (Node n : remaining) {
-			if (getValidNeighbors(n.neighbours, remaining) < 2) {
+			if (getValidNeighbors(n.neighbours, remaining) < 1) {
 				independentSet.add(n);
 				Set<Node> remainingCopy = new HashSet<Node>(remaining);
 				remainingCopy.remove(n);
 				remainingCopy.removeAll(n.neighbours);
 				//System.out.println("leaf");
-				return getIndependentSet(remainingCopy, independentSet, useAbstractValue);
+				return getIndependentSet(remainingCopy, independentSet);
 				// independentSet.remove(n);
 
 			}
@@ -67,6 +120,7 @@ public class Algorithm {
 		// System.out.println(remaining.size());
 		Node mostConn = null;
 		int mostConnNbr = -1;
+		mostConn = remaining.iterator().next();
 		for (Node n : remaining) {
 			if (getValidNeighbors(n.getNeighbours(), remaining) > mostConnNbr) {
 				mostConn = n;
@@ -85,28 +139,18 @@ public class Algorithm {
 		remainingCP1.remove(mostConn);
 		remainingCP1.removeAll(mostConn.getNeighbours());
 
-		ReturnType indepRes1 = getIndependentSet(remainingCP1, independentSetCP1, useAbstractValue);
+		Collection<Node> indepRes1 = getIndependentSet(remainingCP1, independentSetCP1);
 
 		// try removing
 		HashSet<Node> remainingCP2 = new HashSet<Node>(remaining);
 		remainingCP2.remove(mostConn);
-		ReturnType indepRes2 = getIndependentSet(remainingCP2, independentSet, useAbstractValue);
+		Collection<Node> indepRes2 = getIndependentSet(remainingCP2, independentSet);
 
-		int value1 = indepRes1.value;
-		int value2 = indepRes2.value;
-		
-		return (value1 > value2) ? indepRes1 : indepRes2;
+		return (indepRes1.size() > indepRes2.size()) ? indepRes1 : indepRes2;
 
 	}
 
-	private static ReturnType getValueOf(Set<Node> independentSet) {
-		Set<Node> allNodes = new HashSet<Node>();
-		for (Bag b : bags){
-			Set<Node> recieved = b.getValueOf(independentSet);
-			allNodes.addAll(recieved);
-		}
-		return new ReturnType(allNodes, allNodes.size());
-	}
+
 
 	public static int getValidNeighbors(Collection<Node> neighbors, Set<Node> remaining) {
 		int nbr = 0;
@@ -116,6 +160,13 @@ public class Algorithm {
 			}
 		}
 		return nbr;
+
+	}
+	
+	public static Set<Node> getValidNeighborsC(Set<Node> neighbors, Set<Node> remaining) {
+		Set<Node> nodes = new HashSet<Node>(neighbors);
+		nodes.retainAll(remaining);
+		return nodes;
 
 	}
 
