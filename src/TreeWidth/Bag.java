@@ -10,17 +10,14 @@ import java.util.Set;
 public class Bag {
 	public Set<Node> nodes;
 	public List<Node> edgeNodes;
+	public int id;
 	//public List<SubTree> neighboringTrees;
 	public HashMap<BitSet, List<Node>>  partialSolutions;
 
-	public Bag(){
-		nodes = new ArrayList<>();
+	public Bag(int id){
+		this.id = id;
+		nodes = new HashSet<Node>();
 		edgeNodes = new ArrayList<>();
-	}
-	
-	
-	public Bag(){
-		
 	}
 
 	public void calculatesolutions() {
@@ -78,15 +75,5 @@ public class Bag {
 		remainingNodes2.remove(current);
 
 
-	}
-	
-	
-
-	public void addNode(Node n){
-		nodes.add(n);
-	}
-
-	public void addEdgeNode(Node n){
-		edgeNodes.add(n);
 	}
 }

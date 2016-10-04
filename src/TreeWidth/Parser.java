@@ -14,10 +14,10 @@ public class Parser {
     public Parser(){
 
     }
-    public List<Bag> parse(String path){
+    public Set<Bag> parse(String path){
         Map<Integer, Node> map = parseGraph(path+".gr");
         BufferedReader br;
-        List<Bag> bags = new ArrayList<>();
+        Set<Bag> bags = new HashSet<>();
         try {
             br = new BufferedReader(new FileReader(path+".td"));
             String line = br.readLine();
@@ -29,9 +29,11 @@ public class Parser {
                     case "s":
                         break;
                     case "b":
-                        Bag bag = new Bag();
+                        Bag bag = new Bag(Integer.valueOf(split[1]));
                         for(int i = 2; i < split.length; i++){
-                            bag.addNode(map.get(Integer.valueOf(split[i])));
+                            Node n = map.get(Integer.valueOf(split[i]));
+                            bag.nodes.add(n);
+                            n.bags.add(bag);
                         }
                         bags.add(bag);
                         break;
@@ -44,6 +46,15 @@ public class Parser {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        Iterator itr = map.keySet().iterator();
+        while(itr.hasNext()){
+            Node n = map.get(itr.next());
+            if(n.bags.size() > 1){
+                for(Bag b : n.bags){
+                    b.edgeNodes.add(n);
+                }
+            }
         }
         System.out.println(bags.size() + " bags created.");
         return bags;

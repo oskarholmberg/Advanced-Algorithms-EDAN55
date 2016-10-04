@@ -56,7 +56,7 @@ public class Algorithm {
 		
 		// try adding to set
 		
-		Node remaining = 0;
+//		Node remaining = 0;
 		
 		
 		// try removing
