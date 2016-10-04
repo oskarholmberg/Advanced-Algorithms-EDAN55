@@ -10,7 +10,7 @@ public class RandomSurfer {
 
     private static double alpha = 85.0 / 100;
     private static int nbrJumps = 10000;
-    private static String path = "src/PageRank/Data/three.txt";
+    private static String path = "src/PageRank/Data/p2p-Gnutella08-mod.txt";
 
     private static List<Node> nodes = Parser.parse(path);
 
