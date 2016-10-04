@@ -22,8 +22,8 @@ public class Bag {
 	}
 
 	public void calculateSolutions() {
-//		System.out.println("edge nodes: " + edgeNodes.size());
-		testCombinations(edgeNodes, nodes, new HashSet<Node>());
+		System.out.println("bag " + id + " edge nodes: " + edgeNodes.size());
+		testCombinations(edgeNodes, nodes , new HashSet<Node>());
 	}
 
 	public Set<Node> getValueOf(Set<Node> inputNodes) {
