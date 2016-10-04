@@ -14,11 +14,11 @@ public class Algorithm {
 
 	public static void main(String[] args){
 		List<Bag> bags = null;
-		List<Node> nodes = null;
+		Set<Node> nodes = null;
 		
 		// precalculate partial solutions
 		for (Bag bag: bags){
-			bag.calculatesolutions();
+			bag.calculatesolutions(nodes);
 		}
 		
 		// normal ind. set algorithm
@@ -56,10 +56,9 @@ public class Algorithm {
 		
 		// try adding to set
 		
-		Node remaining = 0;
 		
 		
-		// try removing
+		// try removing	
 		
 		
 		return independentSet;
