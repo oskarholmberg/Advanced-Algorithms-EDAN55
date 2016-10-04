@@ -8,6 +8,7 @@ import java.util.*;
 public class Node {
     private Map<Integer, Node> neighbours;
     private int id;
+    private HashMap<BitSet, Integer> partialSolutions; 
 
     public Node(int id){
         this.id = id;
