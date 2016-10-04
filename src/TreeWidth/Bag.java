@@ -17,25 +17,9 @@ public class Bag {
 		
 	}
 
-	public void calculatesolutions(Set<Node> nodes) {
+	public void calculateSolutions(Set<Node> nodes) {
 		testCombinations(edgeNodes, nodes, new ArrayList<Node>());
-////		for (Node n : edgeNodes){
-//			Set<Node> remainingCopy = new HashSet<Node>();
-//			remainingCopy.remove(n);
-//			
-//			ArrayList<Node> indepSet = new ArrayList<Node>();
-//			indepSet.add(n);
-//			
-//			List<Node> result = Algorithm.getIndependentSet(remainingCopy, new ArrayList<Node>());
-//			
-//			BitSet currSet = new BitSet(edgeNodes.size());
-//			for (int i = 0; i < edgeNodes.size(); i++){
-//				currSet.set(i, result.contains(edgeNodes.get(i)));
-//			}
-//			
-//			partialSolutions.put(currSet, result);
-			
-//		}
+
 		
 	}
 	
