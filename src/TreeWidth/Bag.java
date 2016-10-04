@@ -22,6 +22,7 @@ public class Bag {
 	}
 
 	public void calculateSolutions() {
+//		System.out.println("edge nodes: " + edgeNodes.size());
 		testCombinations(edgeNodes, nodes, new HashSet<Node>());
 	}
 
@@ -30,23 +31,26 @@ public class Bag {
 		for (int i = 0; i < edgeNodes.size(); i++) {
 			currSet.set(i, inputNodes.contains(edgeNodes.get(i)));
 		}
-
 		return partialSolutions.get(currSet);
 	}
 
 	public void testCombinations(List<Node> remainingEdgeNodes, Set<Node> remainingNodes, Set<Node> independentSet) {
 		if (remainingEdgeNodes.size() == 0) {
 			// write partial solution
-			System.out.println("getting indepset");
+			//System.out.println("getting indepset");
 			ReturnType nodesInIndepSet = Algorithm.getIndependentSet(remainingNodes, independentSet, false);
 			BitSet currSet = new BitSet(edgeNodes.size());
 			for (int i = 0; i < edgeNodes.size(); i++) {
+//				System.out.println("calc");
 				currSet.set(i, nodesInIndepSet.independentSet.contains(edgeNodes.get(i)));
 			}
-			System.out.println(currSet);
+			
+			System.out.println("bag: " + id + " value of: " + currSet + ": " + nodesInIndepSet.independentSet.size());
+			partialSolutions.put(currSet, nodesInIndepSet.independentSet);
+//			System.out.println(currSet);
 			return;
 		}
-		System.out.println("depth: " + remainingEdgeNodes.size());
+		//System.out.println("depth: " + remainingEdgeNodes.size());
 		ArrayList<Node> remainingEdgeNodesCp1 = new ArrayList<Node>(remainingEdgeNodes);
 		ArrayList<Node> remainingEdgeNodesCp2 = new ArrayList<Node>(remainingEdgeNodes);
 		Set<Node> independentSetCp1 = new HashSet<Node>(independentSet);
