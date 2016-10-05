@@ -51,15 +51,7 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        Iterator itr = map.keySet().iterator();
-//        while(itr.hasNext()){
-//            Node n = map.get(itr.next());
-//            if(n.bags.size() > 1){
-//                for(Bag b : n.bags){
-//                    b.edgeNodes.add(n);
-//                }
-//            }
-//        }
+
         System.out.println(bags.size() + " bags created.");
         return bags.values();
     }

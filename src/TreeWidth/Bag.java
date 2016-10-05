@@ -1,20 +1,21 @@
 package TreeWidth;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class Bag {
-	// public List<Node> edgeNodes;
+	
+	
 	public int id;
 	public List<Node> nodes;
 	public List<Bag> children;
 	public Bag parent;
-	public HashMap<BitSet, Set<Node>> partialSolutions;
+	public Set<Set<Node>> IS;
+	
 
 	public Collection<Node> currentIndSet;
 
@@ -22,40 +23,17 @@ public class Bag {
 		this.id = id;
 		nodes = new ArrayList<Node>();
 		children = new ArrayList<Bag>();
-		// edgeNodes = new ArrayList<>();
-		partialSolutions = new HashMap<BitSet, Set<Node>>();
+		IS = new HashSet<Set<Node>>();
 	}
 
-	public void calculateSolutions(Collection<Node> allNodes) {
-		// System.out.println("bag " + id + " edge nodes: " + edgeNodes.size());
-		testCombinations(nodes, allNodes, new HashSet<Node>());
+	public void calculateSolutions() {
+		testCombinations(nodes, new HashSet<Node>());
 
-		System.out.println("b id: " + id);
-		for (BitSet b : partialSolutions.keySet()) {
-			System.out.println(b);
-		}
-		for (Node n : nodes) {
-			System.out.println(n.id);
-		}
 	}
 
-	public void testCombinations(Collection<Node> remainingNodes, Collection<Node> allNodes, Set<Node> independentSet) {
-		System.out.println(remainingNodes.size());
+	public void testCombinations(Collection<Node> remainingNodes, Set<Node> independentSet) {
 		if (remainingNodes.size() == 0) {
-			// write partial solution
-
-			BitSet currSet = new BitSet(nodes.size());
-			// for (int i = 0; i < nodes.size(); i++) {
-			// currSet.set(i, independentSet.contains(nodes.get(i)));
-			// }
-			
-			for (Node n : independentSet) {
-				currSet.set(nodes.indexOf(n));
-			}
-
-			partialSolutions.put(currSet, independentSet);
-			// System.out.println("bag: " + id + " value of: " + currSet + ": "
-			// + independentSet.size());
+			IS.add(independentSet);
 			return;
 		}
 
@@ -65,27 +43,21 @@ public class Bag {
 			Set<Node> independentSetCp2 = new HashSet<Node>(independentSet);
 			Set<Node> remainingNodesCp1 = new HashSet<Node>(remainingNodes);
 			Set<Node> remainingNodesCp2 = new HashSet<Node>(remainingNodes);
-			Set<Node> allNodesCp1 = new HashSet<Node>(allNodes);
-			Set<Node> allNodesCp2 = new HashSet<Node>(allNodes);
 			
 			
 			// test include this
-
-
 			
 			List<Node> toRemove = new ArrayList<Node>();
 			toRemove.add(current);
 			toRemove.addAll(current.getNeighbours());
 			remainingNodesCp1.removeAll(toRemove);
-			allNodesCp1.removeAll(toRemove);
 			independentSetCp1.add(current);
-			testCombinations(remainingNodesCp1, allNodesCp1, independentSetCp1);
+			testCombinations(remainingNodesCp1, independentSetCp1);
 
 			// test exclude this
 
 			remainingNodesCp2.remove(current);
-			allNodesCp2.remove(current);
-			testCombinations(remainingNodesCp2, allNodesCp2, independentSetCp2);
+			testCombinations(remainingNodesCp2, independentSetCp2);
 		}
 		// Node current = remainingNodes.iterator().next();
 
@@ -114,70 +86,53 @@ public class Bag {
 		System.out.println(" parent: " + ((parent != null) ? parent.id : "None"));
 	}
 
-	public Collection<Node> getIndependentSet() {
-		currentIndSet = new HashSet<Node>();
-
-		Set<Node> intersection = new HashSet<Node>();
-		for (Bag b : children) {
-			currentIndSet.addAll(b.getIndependentSet());
-			intersection.addAll(b.nodes);
+	public void calcIndependentSet() {
+		
+		if (children.isEmpty()){
+			return;
 		}
-		intersection.retainAll(nodes);
-		// see that all nodes agree between bags
-		Collection<Node> selected = getBestSatisfying(currentIndSet, intersection);
-		currentIndSet.addAll(selected);
-		return currentIndSet;
+		
+		for (Bag b : children){
+			b.calcIndependentSet();
+		}
+		
+		Set<Set<Node>> newIS = new HashSet<Set<Node>>();
+		for (Set<Node> nodesInSet : IS){
+			Set<Node> currentSet = new HashSet<>(nodesInSet);
+			for (Bag b : children){
+				currentSet.addAll(b.getValueOf(nodesInSet, nodes));
+			}
+			newIS.add(currentSet);
+		}
+		
+		IS = newIS;
+
 
 	}
-
-	private Collection<Node> getBestSatisfying(Collection<Node> currentIndSet, Collection<Node> overlapping) {
-
-		// req are those that must be a certain way
-		BitSet req = new BitSet();
-
-		for (Node n : overlapping) {
-			int index = nodes.indexOf(n);
-			req.set(index, true);
-		}
-
-		// correct is their values
-		BitSet correct = new BitSet(nodes.size());
-
-		for (int i = 0; i < nodes.size(); i++) {
-			Node n = nodes.get(i);
-			boolean contains = currentIndSet.contains(n);
-			correct.set(i, contains);
-
-		}
-
-		Collection<Node> bestFullfilling = null;
-		int bestNbr = -1;
-		// see which are valid
-		for (BitSet b : partialSolutions.keySet()) {
-			boolean wasValid = true;
-			for (int i = 0; i < correct.length(); i++) {
-				if (req.get(i) && !(correct.get(i) == b.get(i))) {
-					// invalid
-					System.out.println("invalid corr " + correct + " curr  " + b + " req " + req);
-					wasValid = false;
-					break;
-				}
+	
+	public Collection<Node> getBest(){
+		Set<Node> bestSet = new HashSet<Node>();
+		for (Set<Node> set : IS){
+			if (set.size() > bestSet.size()){
+				bestSet = set;
 			}
-			if (wasValid) {
-				// valid, see if it's any good
-				System.out.println("valid corr " + correct + " curr  " + b + " req " + req);
-
-				Collection<Node> recieved = partialSolutions.get(b);
-				if (recieved.size() > bestNbr) {
-					bestNbr = recieved.size();
-					bestFullfilling = recieved;
-				}
-			}
-
 		}
-		if (bestFullfilling == null) {
-			printFamily();
-		}
-		return bestFullfilling;
+		return bestSet;
 	}
+
+	private Collection<? extends Node> getValueOf(Set<Node> currNodes, Collection<Node> allNodes) {
+		Set<Node> overlapping = new HashSet<>(currNodes);
+		overlapping.retainAll(nodes);
+		Set<Node> overlappingNotUsed = new HashSet<>(allNodes);
+		overlappingNotUsed.retainAll(nodes);
+		overlappingNotUsed.removeAll(overlapping);
+		Set<Node> bestSatisfying = new HashSet<Node>();
+		for (Set<Node> set : IS){
+			if (set.containsAll(overlapping) && Collections.disjoint(overlappingNotUsed, set) && set.size() > bestSatisfying.size()){
+				bestSatisfying = set;
+			}
+		}
+		return bestSatisfying;
+	}
+
 }
