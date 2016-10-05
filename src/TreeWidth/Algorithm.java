@@ -12,65 +12,42 @@ public class Algorithm {
 	
 	public static void main(String[] args) {
 		Parser parser = new Parser();
-		bags = parser.parse("src/TreeWidth/data/BalancedTree_3_5");
+		bags = new HashSet<>(parser.parse("src/TreeWidth/data/HouseGraph"));
+		
+		for (Bag b : bags){
+
+		}
 
 		System.out.println("Bags: " + bags.size());
 		// precalculate partial solutions
 		for (Bag bag : bags) {
 			bag.calculateSolutions();
 		}
-		System.out.println("done with pre req");
-
-		Set<Node> edgeNodes = new HashSet<Node>();
-		for (Bag bag : bags) {
-			edgeNodes.addAll(bag.edgeNodes);
-		}
-		System.out.println("total edge nodes: " + edgeNodes.size());
-
-		Iterator<Node> it = edgeNodes.iterator();
-		Node selected = it.next();
-		System.out.println("selected root: " + selected.id);
-		
+		System.out.println("done with pre calculation");		
 
 		
 		HashSet<Node> indepSetInc = new HashSet<Node>();
-		getIndependentSet(selected, edgeNodes, true, indepSetInc);
+		
+		Bag selectedBag = bags.iterator().next();
+		
+		
+		selectedBag.createTree();
+		
+		Bag endBag = null;
+		for (Bag b : bags){
+			if (b.children.size() == 0){
+				endBag = b;
+			}
+			b.printFamily();
+		}
+		
+		
 		
 		
 		
 		// include or exclude
-		Set<Node> allNodesInc = new HashSet<Node>();
-		for (Bag b : bags){
-			allNodesInc.addAll(b.getValueOf(indepSetInc));
-		}
-		int includeVal = allNodesInc.size();
-		
-		HashSet<Node> indepSetExc = new HashSet<Node>();
-		getIndependentSet(selected, edgeNodes, true, indepSetExc);
-		
-		Set<Node> allNodesExc = new HashSet<Node>();
 
-		for (Bag b : bags){
-			allNodesExc.addAll(b.getValueOf(indepSetExc));
-		}
-		int excludeVal = allNodesExc.size();
-		
-		Set<Node> indepSet;
-		if (includeVal > excludeVal){
-			System.out.println("decided to include node");
-			indepSet = allNodesInc;
-		} else{
-			System.out.println("decided to exlude node");
-			indepSet = allNodesExc;
-		}
 
-		
-
-		System.out.println("total: " + indepSet.size());
-		System.out.print("Selected:");
-		for (Node n : indepSet){
-			System.out.print(" " + n.id);
-		}
 
 	}
 	

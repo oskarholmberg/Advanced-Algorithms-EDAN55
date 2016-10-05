@@ -14,10 +14,10 @@ public class Parser {
     public Parser(){
 
     }
-    public Set<Bag> parse(String path){
+    public Collection<Bag> parse(String path){
         Map<Integer, Node> map = parseGraph(path+".gr");
         BufferedReader br;
-        Set<Bag> bags = new HashSet<>();
+        Map<Integer, Bag> bags = new HashMap<>();
         try {
             br = new BufferedReader(new FileReader(path+".td"));
             String line = br.readLine();
@@ -35,9 +35,13 @@ public class Parser {
                             bag.nodes.add(n);
                             n.bags.add(bag);
                         }
-                        bags.add(bag);
+                        bags.put(bag.id, bag);
                         break;
                     default:
+                    	Bag b1 = bags.get(Integer.valueOf(split[0]));
+                    	Bag b2 = bags.get(Integer.valueOf(split[1]));
+                    	b1.addNeighbor(b2);
+                    	b2.addNeighbor(b1);
                         break;
                 }
                 line = br.readLine();
@@ -47,17 +51,17 @@ public class Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Iterator itr = map.keySet().iterator();
-        while(itr.hasNext()){
-            Node n = map.get(itr.next());
-            if(n.bags.size() > 1){
-                for(Bag b : n.bags){
-                    b.edgeNodes.add(n);
-                }
-            }
-        }
+//        Iterator itr = map.keySet().iterator();
+//        while(itr.hasNext()){
+//            Node n = map.get(itr.next());
+//            if(n.bags.size() > 1){
+//                for(Bag b : n.bags){
+//                    b.edgeNodes.add(n);
+//                }
+//            }
+//        }
         System.out.println(bags.size() + " bags created.");
-        return bags;
+        return bags.values();
     }
 
     private Map<Integer, Node> parseGraph(String path){
