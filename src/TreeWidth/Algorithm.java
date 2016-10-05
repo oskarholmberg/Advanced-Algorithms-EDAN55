@@ -1,9 +1,11 @@
 package TreeWidth;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class Algorithm {
@@ -13,10 +15,6 @@ public class Algorithm {
 	public static void main(String[] args) {
 		Parser parser = new Parser();
 		bags = new HashSet<>(parser.parse("src/TreeWidth/data/HouseGraph"));
-		
-		for (Bag b : bags){
-
-		}
 
 		System.out.println("Bags: " + bags.size());
 		// precalculate partial solutions
@@ -25,26 +23,17 @@ public class Algorithm {
 		}
 		System.out.println("done with pre calculation");		
 
-		
-		HashSet<Node> indepSetInc = new HashSet<Node>();
-		
+				
 		Bag selectedBag = bags.iterator().next();
 		
 		
 		selectedBag.createTree();
 		
-		Bag endBag = null;
 		for (Bag b : bags){
-			if (b.children.size() == 0){
-				endBag = b;
-			}
 			b.printFamily();
 		}
 		
-		
-		
-		
-		
+		System.out.println(selectedBag.getIndependentSet().size());
 		// include or exclude
 
 

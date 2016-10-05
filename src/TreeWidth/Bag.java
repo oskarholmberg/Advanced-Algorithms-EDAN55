@@ -3,6 +3,8 @@ package TreeWidth;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +17,8 @@ public class Bag {
 	public List<Bag> children;
 	public Bag parent;
 	public HashMap<BitSet, Set<Node>> partialSolutions;
+	
+	public Collection<Node> currentIndSet;
 
 	public Bag(int id) {
 		this.id = id;
@@ -72,11 +76,9 @@ public class Bag {
 		testCombinations(remainingNodesCp2, independentSetCp2);
 
 	}
-//
-//	public void addEdgeNode(Node n) {
-//		edgeNodes.add(n);
-//	}
 
+	
+	
 	public void addNeighbor(Bag bag) {
 		children.add(bag);
 		
@@ -98,5 +100,25 @@ public class Bag {
 			System.out.print(b2.id + " ");
 		}
 		System.out.println(" parent: " + ((parent != null) ? parent.id : "None"));
+	}
+
+	public Collection<Node> getIndependentSet() {
+		currentIndSet = new HashSet<Node>();
+		for (Bag b : children){
+			currentIndSet.addAll(b.getIndependentSet());
+		}
+		List<Collection<Node>> possibilities = new ArrayList<Collection<Node>>(partialSolutions.values());
+		
+		
+		Collections.sort(possibilities, (p1, p2) -> p2.size() - p1.size());
+//		System.out.print(id + ": ");
+//		for (Collection<Node> c : possibilities){
+//			System.out.print(c.size());
+//		}
+//		System.out.println();
+		
+		currentIndSet.addAll(possibilities.get(0));
+		return currentIndSet;
+				
 	}
 }
