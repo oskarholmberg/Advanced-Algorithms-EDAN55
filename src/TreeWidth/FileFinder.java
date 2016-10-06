@@ -1,17 +1,21 @@
 package TreeWidth;
 
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Created by oskar on 2016-10-04.
  */
 public class FileFinder {
 
-    private static int maxNodes = 10;
+    public FileFinder(){
 
-    public static void main(String[] args) {
+    }
+
+    public ArrayList<String> findGraphs(String path, int max) {
+        ArrayList<String> list = new ArrayList<>();
         BufferedReader br;
-        File folder = new File("src/TreeWidth/data");
+        File folder = new File(path);
         for (File f : folder.listFiles()) {
             String name = f.toString();
             if (name.split("\\.")[1].equals("gr")) {
@@ -23,7 +27,8 @@ public class FileFinder {
                     }
 
                     int val = Integer.valueOf(line.split(" ")[2]);
-                    if (val <= maxNodes) {
+                    if (val >= max) {
+                        list.add(name);
                         System.out.println(name + " with " + val + " nodes.");
                     }
 
@@ -34,6 +39,7 @@ public class FileFinder {
                 }
             }
         }
+        return list;
     }
 
 }
