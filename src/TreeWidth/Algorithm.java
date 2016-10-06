@@ -15,7 +15,7 @@ public class Algorithm {
 	
 	public static void main(String[] args) {
 		Parser parser = new Parser();
-		bags = new HashSet<>(parser.parse("src/TreeWidth/data/AhrensSzekeresGeneralizedQuadrangleGraph_3"));
+		//bags = new HashSet<>(parser.parse("src/TreeWidth/data/AhrensSzekeresGeneralizedQuadrangleGraph_3"));
 		FileFinder finder = new FileFinder();
 		List<String> graphs = new ArrayList<>();
 		graphs.add("src/TreeWidth/data/AhrensSzekeresGeneralizedQuadrangleGraph_3.gr");
@@ -33,9 +33,9 @@ public class Algorithm {
 			selectedBag.createTree();
 			selectedBag.calcIndependentSet();
 
-			for (Bag b : bags) {
+//			for (Bag b : bags) {
 //				b.printFamily();
-			}
+//			}
 
 			Collection<Node> best = selectedBag.getBest();
 
@@ -47,24 +47,6 @@ public class Algorithm {
 			System.out.println("total: " + best.size());
 		}
 
-		Bag selectedBag = bags.iterator().next();
-		selectedBag.createTree();
-		selectedBag.calcIndependentSet();
-		
-		for (Bag b : bags){
-			b.printFamily();
-		}
-		
-		Collection<Node> best = selectedBag.getBest();
-		
-		System.out.println("Search for trouble ended");
-		
-		System.out.print("selected nodes: ");
-		for (Node n : best){
-			System.out.print(n.id + " ");
-		}
-		System.out.println();
-		System.out.println("total: " + best.size());
 
 
 

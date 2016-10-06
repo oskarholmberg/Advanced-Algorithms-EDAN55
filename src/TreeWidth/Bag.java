@@ -8,14 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 public class Bag {
-	
-	
+
 	public int id;
 	public List<Node> nodes;
 	public List<Bag> children;
 	public Bag parent;
 	public Set<Set<Node>> IS;
-	
 
 	public Collection<Node> currentIndSet;
 
@@ -33,33 +31,29 @@ public class Bag {
 
 	public void testCombinations(Collection<Node> remainingNodes, Set<Node> independentSet) {
 		if (remainingNodes.size() == 0) {
-			IS.add(independentSet);
+			IS.add(new HashSet<>(independentSet));
 			return;
 		}
 
 		Node current = remainingNodes.iterator().next();
-	//	for (Node current : remainingNodes) {
 
-			Set<Node> independentSetCp1 = new HashSet<Node>(independentSet);
-			Set<Node> remainingNodesCp1 = new HashSet<Node>(remainingNodes);
-			Set<Node> remainingNodesCp2 = new HashSet<Node>(remainingNodes);
-			
-			
-			// test include this
-			
-			List<Node> toRemove = new ArrayList<Node>();
-			toRemove.add(current);
-			toRemove.addAll(current.getNeighbours());
-			remainingNodesCp1.removeAll(toRemove);
-			independentSetCp1.add(current);
-			testCombinations(remainingNodesCp1, independentSetCp1);
+		// test include this
 
-			// test exclude this
+		Set<Node> toRemove = new HashSet<Node>(current.getNeighbours());
+		toRemove.add(current);
+		toRemove.retainAll(remainingNodes);
+		remainingNodes.removeAll(toRemove);
+		independentSet.add(current);
+		testCombinations(remainingNodes, independentSet);
+		independentSet.remove(current);
+		remainingNodes.addAll(toRemove);
 
-			remainingNodesCp2.remove(current);
-			testCombinations(remainingNodesCp2, independentSet);
-	//	}
-		// Node current = remainingNodes.iterator().next();
+		// test exclude this
+
+		remainingNodes.remove(current);
+		testCombinations(remainingNodes, independentSet);
+		remainingNodes.add(current);
+		// }
 
 	}
 
@@ -87,33 +81,33 @@ public class Bag {
 	}
 
 	public void calcIndependentSet() {
-		
-		if (children.isEmpty()){
+
+		if (children.isEmpty()) {
 			return;
 		}
-		
-		for (Bag b : children){
+
+		for (Bag b : children) {
 			b.calcIndependentSet();
 		}
-		
+
 		Set<Set<Node>> newIS = new HashSet<Set<Node>>();
-		for (Set<Node> nodesInSet : IS){
+		for (Set<Node> nodesInSet : IS) {
 			Set<Node> currentSet = new HashSet<>(nodesInSet);
-			for (Bag b : children){
+			for (Bag b : children) {
 				currentSet.addAll(b.getValueOf(nodesInSet, nodes));
 			}
 			newIS.add(currentSet);
 		}
-		
-		IS = newIS;
 
+		IS = newIS;
 
 	}
 	
-	public Collection<Node> getBest(){
+
+	public Collection<Node> getBest() {
 		Set<Node> bestSet = new HashSet<Node>();
-		for (Set<Node> set : IS){
-			if (set.size() > bestSet.size()){
+		for (Set<Node> set : IS) {
+			if (set.size() > bestSet.size()) {
 				bestSet = set;
 			}
 		}
@@ -127,8 +121,9 @@ public class Bag {
 		overlappingNotUsed.retainAll(nodes);
 		overlappingNotUsed.removeAll(overlapping);
 		Set<Node> bestSatisfying = new HashSet<Node>();
-		for (Set<Node> set : IS){
-			if (set.containsAll(overlapping) && Collections.disjoint(overlappingNotUsed, set) && set.size() > bestSatisfying.size()){
+		for (Set<Node> set : IS) {
+			if (set.containsAll(overlapping) && Collections.disjoint(overlappingNotUsed, set)
+					&& set.size() > bestSatisfying.size()) {
 				bestSatisfying = set;
 			}
 		}
