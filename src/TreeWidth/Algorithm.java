@@ -17,8 +17,10 @@ public class Algorithm {
 		Parser parser = new Parser();
 		bags = new HashSet<>(parser.parse("src/TreeWidth/data/AhrensSzekeresGeneralizedQuadrangleGraph_3"));
 		FileFinder finder = new FileFinder();
-		List<String> graphs = finder.findGraphs("src/TreeWidth/data", 50);
-		System.out.println(graphs.size() + " graphs beging computed.");
+		List<String> graphs = new ArrayList<>();
+		graphs.add("src/TreeWidth/data/AhrensSzekeresGeneralizedQuadrangleGraph_3.gr");
+//		graphs = finder.findGraphs("src/TreeWidth/data", 50);
+//		System.out.println(graphs.size() + " graphs beging computed.");
 		for(String s : graphs) {
 			System.out.println(s + ":");
 			bags = new HashSet<>(parser.parse(s.substring(0, s.length()-3)));
