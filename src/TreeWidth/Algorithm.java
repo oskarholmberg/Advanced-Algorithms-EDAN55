@@ -16,9 +16,33 @@ public class Algorithm {
 	public static void main(String[] args) {
 		Parser parser = new Parser();
 		bags = new HashSet<>(parser.parse("src/TreeWidth/data/AhrensSzekeresGeneralizedQuadrangleGraph_3"));
+		FileFinder finder = new FileFinder();
+		List<String> graphs = finder.findGraphs("src/TreeWidth/data", 50);
+		System.out.println(graphs.size() + " graphs beging computed.");
+		for(String s : graphs) {
+			System.out.println(s + ":");
+			bags = new HashSet<>(parser.parse(s.substring(0, s.length()-3)));
 
-		for (Bag bag : bags) {
-			bag.calculateSolutions();
+			for (Bag bag : bags) {
+				bag.calculateSolutions();
+			}
+
+			Bag selectedBag = bags.iterator().next();
+			selectedBag.createTree();
+			selectedBag.calcIndependentSet();
+
+			for (Bag b : bags) {
+//				b.printFamily();
+			}
+
+			Collection<Node> best = selectedBag.getBest();
+
+			System.out.print("selected nodes: ");
+			for (Node n : best) {
+				System.out.print(n.id + " ");
+			}
+			System.out.println();
+			System.out.println("total: " + best.size());
 		}
 
 		Bag selectedBag = bags.iterator().next();
@@ -43,6 +67,4 @@ public class Algorithm {
 
 
 	}
-	
-
 }
