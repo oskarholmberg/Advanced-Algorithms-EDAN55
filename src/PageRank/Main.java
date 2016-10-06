@@ -12,7 +12,7 @@ public class Main {
 	public static String path;
 	
 	public static void main(String[] args) {	
-		path = "src/PageRank/Data/three.txt";
+		path = "src/PageRank/Data/medium.txt";
 
 		damping = 0.85;
 
