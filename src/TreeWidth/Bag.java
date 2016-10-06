@@ -37,10 +37,10 @@ public class Bag {
 			return;
 		}
 
-		for (Node current : remainingNodes) {
+		Node current = remainingNodes.iterator().next();
+	//	for (Node current : remainingNodes) {
 
 			Set<Node> independentSetCp1 = new HashSet<Node>(independentSet);
-			Set<Node> independentSetCp2 = new HashSet<Node>(independentSet);
 			Set<Node> remainingNodesCp1 = new HashSet<Node>(remainingNodes);
 			Set<Node> remainingNodesCp2 = new HashSet<Node>(remainingNodes);
 			
@@ -57,8 +57,8 @@ public class Bag {
 			// test exclude this
 
 			remainingNodesCp2.remove(current);
-			testCombinations(remainingNodesCp2, independentSetCp2);
-		}
+			testCombinations(remainingNodesCp2, independentSet);
+	//	}
 		// Node current = remainingNodes.iterator().next();
 
 	}

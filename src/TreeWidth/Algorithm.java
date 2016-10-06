@@ -15,7 +15,7 @@ public class Algorithm {
 	
 	public static void main(String[] args) {
 		Parser parser = new Parser();
-		bags = new HashSet<>(parser.parse("src/TreeWidth/data/BalancedTree_3_5"));
+		bags = new HashSet<>(parser.parse("src/TreeWidth/data/AhrensSzekeresGeneralizedQuadrangleGraph_3"));
 
 		for (Bag bag : bags) {
 			bag.calculateSolutions();
@@ -30,6 +30,8 @@ public class Algorithm {
 		}
 		
 		Collection<Node> best = selectedBag.getBest();
+		
+		System.out.println("Search for trouble ended");
 		
 		System.out.print("selected nodes: ");
 		for (Node n : best){
